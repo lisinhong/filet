@@ -10,22 +10,22 @@ const routes = [
     component: () => import("@/views/AppDashboard.vue"),
   },
   {
-    path: "my-page",
-    name: "MyPage",
+    path: "/my-page",
+    name: "My Page",
     component: () => import("@/views/AppMyPage.vue"),
   },
   {
-    path: "products",
+    path: "/products",
     name: "Products",
     component: () => import("@/views/AppProducts.vue"),
   },
   {
-    path: "faq",
+    path: "/faq",
     name: "Faq",
     component: () => import("@/views/AppFaq.vue"),
   },
   {
-    path: "contact",
+    path: "/contact",
     name: "Contact",
     component: () => import("@/views/AppContact.vue"),
   },

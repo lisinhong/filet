@@ -4,8 +4,15 @@
       <app-site-map />
     </aside>
     <main class="app-main">
-      <app-header />
-      <router-view />
+      <div class="app-header-wrapper">
+        <app-header />
+      </div>
+      <div class="app-info-wrapper">
+        <app-info />
+      </div>
+      <div class="app-content-wrapper">
+        <router-view />
+      </div>
     </main>
   </div>
 </template>
@@ -14,12 +21,14 @@
 import { mapState } from "vuex";
 import AppHeader from "@/components/AppHeader.vue";
 import AppSiteMap from "@/components/AppSiteMap.vue";
+import AppInfo from "@/components/AppInfo.vue";
 
 export default {
   name: "App",
   components: {
     AppHeader,
     AppSiteMap,
+    AppInfo,
   },
   computed: {
     ...mapState(["showSidebar"]),
@@ -43,6 +52,13 @@ export default {
   .app-main {
     flex: 1 1 auto;
     transition: 0.4s ease;
+    display: flex;
+    flex-direction: column;
+
+    .app-content-wrapper {
+      flex: 1 1 auto;
+      padding: 32px 72px;
+    }
   }
 
   &.has-sidebar {
