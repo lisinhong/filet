@@ -1,6 +1,6 @@
 <template>
   <b-nav tabs class="app-header">
-    <b-nav-item>
+    <b-nav-item @click="toggleSideBar">
       <icon-menu-open fill="white" />
     </b-nav-item>
 
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
 import IconMenuOpen from "@/components/icons/IconMenuOpen.vue";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconAccountCircle from "@/components/icons/IconAccountCircle.vue";
@@ -47,15 +48,11 @@ export default {
     IconManageAccounts,
     IconLogout,
   },
-  props: {
-    isLogin: {
-      type: Boolean,
-      default: false,
-    },
-    userName: {
-      type: String,
-      default: "USERNAME",
-    },
+  computed: {
+    ...mapState(["isLogin", "userName"]),
+  },
+  methods: {
+    ...mapMutations(["toggleSideBar"]),
   },
 };
 </script>
@@ -63,11 +60,17 @@ export default {
 <style lang="scss" scoped>
 .app-header {
   margin: 0;
-  padding: 20px 40px;
+  padding: 0 40px;
   justify-content: space-between;
+  align-items: center;
   background-color: $brand-dark;
+  height: $header-height;
 
   .nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     .nav-link {
       padding: 0;
       border: none;

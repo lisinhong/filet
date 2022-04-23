@@ -4,9 +4,17 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    showSidebar: true,
+    isLogin: false,
+    userName: "USERNAME",
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    toggleSideBar(state) {
+      state.showSidebar = !state.showSidebar;
+    },
+  },
   actions: {},
   modules: {},
 });
