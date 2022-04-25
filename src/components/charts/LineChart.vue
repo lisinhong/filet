@@ -1,8 +1,21 @@
+<template>
+  <div class="line-chart">
+    <line-chart-base
+      :width="width"
+      :height="height"
+      :chartData="chartData"
+      :chartOptions="chartOptions"
+    />
+  </div>
+</template>
+
 <script>
-import { Line } from "vue-chartjs/legacy";
+import LineChartBase from "@/components/charts/LineChartBase.vue";
 
 export default {
-  extends: Line,
+  components: {
+    LineChartBase,
+  },
   props: {
     chartData: {
       // eslint-disable-next-line vue/require-prop-type-constructor
@@ -13,9 +26,14 @@ export default {
       type: Object,
       required: false,
     },
-  },
-  mounted() {
-    this.renderChart(this.chartData, this.chartOptions);
+    width: {
+      type: Number,
+      default: null,
+    },
+    height: {
+      type: Number,
+      default: 212,
+    },
   },
 };
 </script>

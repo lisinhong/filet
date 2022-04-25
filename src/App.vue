@@ -51,6 +51,7 @@ export default {
 
   .app-main {
     flex: 1 1 auto;
+    max-width: 100%;
     transition: 0.4s ease;
     display: flex;
     flex-direction: column;
@@ -64,6 +65,10 @@ export default {
   &.has-sidebar {
     .app-sidebar {
       margin-left: 0;
+    }
+
+    .app-main {
+      max-width: calc(100% - #{$sidebar-width});
     }
   }
 }

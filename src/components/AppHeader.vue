@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapGetters } from "vuex";
 import IconMenuOpen from "@/components/icons/IconMenuOpen.vue";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconAccountCircle from "@/components/icons/IconAccountCircle.vue";
@@ -49,7 +49,8 @@ export default {
     IconLogout,
   },
   computed: {
-    ...mapState(["isLogin", "userName"]),
+    ...mapState(["userName"]),
+    ...mapGetters(["isLogin"]),
   },
   methods: {
     ...mapMutations(["toggleSideBar"]),

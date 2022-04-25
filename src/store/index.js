@@ -6,13 +6,41 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     showSidebar: true,
-    isLogin: false,
+    token: "123",
     userName: "USERNAME",
+    showModal: false,
+    modalTitle: null,
+    modalPlaceholder: null,
+    modalDescription: null,
+    modalMax: null,
   },
-  getters: {},
+  getters: {
+    isLogin(state) {
+      return !!state.token;
+    },
+  },
   mutations: {
     toggleSideBar(state) {
       state.showSidebar = !state.showSidebar;
+    },
+    showAppModal(state, data) {
+      const { modalTitle, modalPlaceholder, modalMax } = data;
+
+      if (!modalTitle || !modalPlaceholder) {
+        console.error("missing data");
+        return;
+      }
+
+      state.showModal = true;
+      state.modalTitle = modalTitle;
+      state.modalPlaceholder = modalPlaceholder;
+      state.modalMax = modalMax ? modalMax : null;
+    },
+    hideAppModal(state) {
+      state.showModal = false;
+      state.modalTitle = null;
+      state.modalPlaceholder = null;
+      state.modalMax = null;
     },
   },
   actions: {},

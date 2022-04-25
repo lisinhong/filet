@@ -1,8 +1,55 @@
+<template>
+  <div class="doughnut-chart">
+    <doughnut-chart-base
+      :width="width"
+      :height="height"
+      :plugins="[htmlLegendPlugin]"
+      :chartData="chartData"
+      :chartOptions="chartOptions"
+    />
+    <div>
+      <div class="legend-container"></div>
+      <div class="button-list">
+        <button
+          class="btn-withdraw"
+          :disabled="isEmpty"
+          @click="handleWithdrawClick"
+        >
+          Withdraw
+        </button>
+        <button
+          class="btn-deposit"
+          :disabled="isEmpty"
+          @click="handleDepositClick"
+        >
+          Deposit
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
-import { Doughnut } from "vue-chartjs/legacy";
+import { mapMutations } from "vuex";
+import DoughnutChartBase from "@/components/charts/DoughnutChartBase.vue";
+
+const getOrCreateLegendList = () => {
+  const legendContainer = document.querySelector(".legend-container");
+  let listContainer = legendContainer.querySelector("ul");
+
+  if (!listContainer) {
+    listContainer = document.createElement("ul");
+
+    legendContainer.appendChild(listContainer);
+  }
+
+  return listContainer;
+};
 
 export default {
-  extends: Doughnut,
+  components: {
+    DoughnutChartBase,
+  },
   props: {
     chartData: {
       // eslint-disable-next-line vue/require-prop-type-constructor
@@ -13,9 +60,178 @@ export default {
       type: Object,
       required: false,
     },
+    width: {
+      type: Number,
+      default: 175,
+    },
+    height: {
+      type: Number,
+      default: 175,
+    },
+    hasButtons: {
+      type: Boolean,
+      default: false,
+    },
+    isEmpty: {
+      type: Boolean,
+      default: false,
+    },
   },
-  mounted() {
-    this.renderChart(this.chartData, this.chartOptions);
+  data() {
+    return {
+      htmlLegendPlugin: {
+        id: "htmlLegend",
+        afterUpdate(chart) {
+          const ul = getOrCreateLegendList();
+
+          // Remove old legend items
+          while (ul.firstChild) {
+            ul.firstChild.remove();
+          }
+
+          // Reuse the built-in legendItems generator
+          const items =
+            chart.options.plugins.legend.labels.generateLabels(chart);
+
+          items.forEach((item, index) => {
+            if (!item.text) {
+              return;
+            }
+            const li = document.createElement("li");
+            const boxSpan = document.createElement("span");
+            const textContainer1 = document.createElement("p");
+            const textContainer2 = document.createElement("p");
+            const text = document.createTextNode(item.text);
+            const value = document.createTextNode(
+              `${chart.config.data.datasets[0].data[index]} USDT`
+            );
+
+            boxSpan.style.backgroundColor =
+              chart?.config?.data?.datasets[0]?.backgroundColor[index];
+            textContainer2.style.color =
+              chart?.config?.options?.plugins?.legend?.fontColor;
+            textContainer1.appendChild(boxSpan);
+            textContainer1.appendChild(text);
+            textContainer2.appendChild(value);
+
+            li.appendChild(textContainer1);
+            li.appendChild(textContainer2);
+            ul.appendChild(li);
+          });
+        },
+      },
+    };
+  },
+  methods: {
+    ...mapMutations(["showAppModal"]),
+    handleWithdrawClick() {
+      this.showAppModal({
+        modalTitle: "Withdraw",
+        modalPlaceholder: "0",
+        modalMax: 1000,
+      });
+    },
+    handleDepositClick() {
+      this.showAppModal({
+        modalTitle: "Deposit",
+        modalPlaceholder: "0",
+      });
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.doughnut-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .legend-container {
+    display: flex;
+    flex-direction: column;
+
+    ::v-deep {
+      > ul {
+        margin-left: 50px;
+        padding: 0;
+        list-style-type: none;
+
+        > li {
+          & + li {
+            margin-top: 16px;
+          }
+
+          p {
+            position: relative;
+            margin: 0;
+            padding-left: 24px;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.02em;
+
+            &:first-child {
+              margin-bottom: 8px;
+              color: $gray-2;
+            }
+          }
+
+          span {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+
+  .button-list {
+    margin: 30px 0 0 50px;
+    display: flex;
+
+    button {
+      padding: 8px 16px;
+      border-radius: 22px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      letter-spacing: 0.02em;
+      border: 1px solid $brand-dark;
+
+      &.btn-withdraw {
+        margin-right: 12px;
+        color: $brand-dark;
+        background-color: $white;
+
+        &:disabled {
+          border: 1px solid $gray-8;
+          color: $gray-6;
+        }
+      }
+
+      &.btn-deposit {
+        color: $white;
+        background-color: $brand-dark;
+      }
+
+      &:disabled {
+        border: 1px solid $gray-8;
+        color: $gray-6;
+        cursor: not-allowed;
+
+        &.btn-deposit {
+          background-color: $gray-8;
+        }
+      }
+    }
+  }
+}
+</style>
