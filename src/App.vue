@@ -14,14 +14,16 @@
         <router-view />
       </div>
     </main>
+    <app-modal />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import AppHeader from "@/components/AppHeader.vue";
 import AppSiteMap from "@/components/AppSiteMap.vue";
 import AppInfo from "@/components/AppInfo.vue";
+import AppModal from "@/components/AppModal.vue";
 
 export default {
   name: "App",
@@ -29,9 +31,18 @@ export default {
     AppHeader,
     AppSiteMap,
     AppInfo,
+    AppModal,
   },
   computed: {
     ...mapState(["showSidebar"]),
+  },
+  watch: {
+    $route() {
+      this.hideAppModal();
+    },
+  },
+  methods: {
+    ...mapMutations(["hideAppModal"]),
   },
 };
 </script>

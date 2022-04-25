@@ -17,7 +17,7 @@
         Fixed Interest
       </p>
       <div class="content">
-        <product-info :is-redeemable="true" />
+        <product-info redeem />
       </div>
     </div>
     <div class="app-card large">
@@ -26,7 +26,6 @@
         <transaction-history :isEmpty="!transactionHistory" />
       </div>
     </div>
-    <app-modal />
   </div>
 </template>
 
@@ -35,7 +34,6 @@ import { mapState, mapMutations } from "vuex";
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 import ProductInfo from "@/components/ProductInfo.vue";
 import TransactionHistory from "@/components/TransactionHistory.vue";
-import AppModal from "@/components/AppModal.vue";
 
 export default {
   name: "AppMyPage",
@@ -43,7 +41,6 @@ export default {
     DoughnutChart,
     ProductInfo,
     TransactionHistory,
-    AppModal,
   },
   data() {
     return {

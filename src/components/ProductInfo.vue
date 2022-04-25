@@ -1,15 +1,29 @@
 <template>
-  <div class="product-info">
+  <div class="product-info" :class="{ 'full-info': fullInfo }">
     <div class="info">
-      <div class="rate">8%</div>
-      <div class="description">
-        <p>Period <em>30</em> Days</p>
-        <p>Minimum: <em>3,000</em> USDT</p>
-      </div>
+      <template v-if="fullInfo">
+        <div class="rate">8%</div>
+        <div class="description">
+          <p>Period: <em>30</em> Days</p>
+          <p>Minimum Investment: <em>3,000</em> USDT</p>
+          <p>Management Fee: <em>3,000</em> %</p>
+        </div>
+        <div class="description">
+          <p>Performance Fee: <em>0</em> %</p>
+          <p>Early Redemption Fee: <em>1</em> % / Day</p>
+          <p>Max Drawdown: <em>0</em> %</p>
+        </div>
+      </template>
+      <template v-else>
+        <div class="rate">8%</div>
+        <div class="description">
+          <p>Period: <em>30</em> Days</p>
+          <p>Minimum: <em>3,000</em> USDT</p>
+        </div>
+      </template>
     </div>
-    <button class="btn-redeem" v-if="isRedeemable" @click="handleRedeemClick">
-      Redeem
-    </button>
+    <button v-if="redeem" @click="handleRedeemClick">Redeem</button>
+    <button v-else-if="apply" @click="handleApplyClick">Apply</button>
     <router-link class="btn-more" to="products" v-else>
       <button>More</button>
     </router-link>
@@ -22,7 +36,15 @@ import { mapMutations } from "vuex";
 export default {
   name: "ProductInfo",
   props: {
-    isRedeemable: {
+    redeem: {
+      type: Boolean,
+      default: false,
+    },
+    apply: {
+      type: Boolean,
+      default: false,
+    },
+    fullInfo: {
       type: Boolean,
       default: false,
     },
@@ -34,6 +56,13 @@ export default {
         modalTitle: "Early Redemption",
         modalPlaceholder: "0",
         modalMax: 1000,
+      });
+    },
+    handleApplyClick() {
+      this.showAppModal({
+        modalTitle: "Apply",
+        modalPlaceholder: "0",
+        modalMax: 65000,
       });
     },
   },
@@ -51,6 +80,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  &.full-info {
+    .info {
+      justify-content: space-around;
+    }
   }
 
   .rate {
