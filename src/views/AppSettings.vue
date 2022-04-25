@@ -18,11 +18,12 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group label-for="email" label="Email">
-          <b-form-input id="email" v-model="email"></b-form-input>
+          <b-form-input id="email" type="email" v-model="email"></b-form-input>
         </b-form-group>
         <b-form-group label-for="phone-number" label="Phone number (Optional)">
           <b-form-input
             id="phone-number"
+            type="tel"
             v-model="phoneNumber"
             placeholder="+1 123456789"
           ></b-form-input>
@@ -38,6 +39,7 @@
         <b-form-group label-for="old-password" label="Old password">
           <b-form-input
             id="old-password"
+            type="password"
             :value="oldPassword"
             placeholder="Your answer"
           ></b-form-input>
@@ -45,6 +47,7 @@
         <b-form-group label-for="new-password" label="New password">
           <b-form-input
             id="new-password"
+            type="password"
             :value="newPassword"
             placeholder="Your answer"
           ></b-form-input>
@@ -56,6 +59,7 @@
         >
           <b-form-input
             id="confirm-new-password"
+            type="password"
             :value="confirmNewPassword"
             placeholder="Your answer"
           ></b-form-input>
