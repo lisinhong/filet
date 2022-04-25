@@ -7,7 +7,7 @@
       <div class="app-header-wrapper">
         <app-header />
       </div>
-      <div class="app-info-wrapper">
+      <div class="app-info-wrapper" v-if="$route.meta.showAppInfo">
         <app-info />
       </div>
       <div class="app-content-wrapper">
