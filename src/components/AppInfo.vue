@@ -7,13 +7,12 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "AppInfo",
   computed: {
-    ...mapState(["userName"]),
-    ...mapGetters(["isLogin"]),
+    ...mapGetters(["isLogin", "userName"]),
     pageTitle() {
       return this.$route.name;
     },

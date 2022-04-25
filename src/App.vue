@@ -3,7 +3,7 @@
     <aside class="app-sidebar">
       <app-site-map />
     </aside>
-    <main class="app-main">
+    <main class="app-main" :class="{ 'white-background': whiteBackground }">
       <div class="app-header-wrapper">
         <app-header />
       </div>
@@ -35,6 +35,9 @@ export default {
   },
   computed: {
     ...mapState(["showSidebar"]),
+    whiteBackground() {
+      return this.$route.name === "Profile" || this.$route.name === "Settings";
+    },
   },
   watch: {
     $route() {
@@ -66,6 +69,10 @@ export default {
     transition: 0.4s ease;
     display: flex;
     flex-direction: column;
+
+    &.white-background {
+      background-color: $white;
+    }
 
     .app-content-wrapper {
       flex: 1 1 auto;

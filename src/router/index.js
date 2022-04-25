@@ -29,6 +29,16 @@ const routes = [
     name: "Contact",
     component: () => import("@/views/AppContact.vue"),
   },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: () => import("@/views/AppProfile.vue"),
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: () => import("@/views/AppSettings.vue"),
+  },
 ];
 
 const router = new VueRouter({

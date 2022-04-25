@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     showSidebar: true,
     token: "123",
-    userName: "USERNAME",
+    firstName: "Kelly",
+    lastName: "Anderson",
     showModal: false,
     modalTitle: null,
     modalPlaceholder: null,
@@ -17,6 +18,9 @@ export default new Vuex.Store({
   getters: {
     isLogin(state) {
       return !!state.token;
+    },
+    userName(state) {
+      return `${state.firstName} ${state.lastName}`;
     },
   },
   mutations: {

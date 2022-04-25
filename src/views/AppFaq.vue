@@ -66,6 +66,7 @@ export default {
     background-color: $white;
     border-radius: 4px;
     list-style-type: none;
+    box-shadow: 0 0 20px rgba($black, 0.1);
 
     li {
       padding: 24px 0;

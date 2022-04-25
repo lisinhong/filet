@@ -10,18 +10,24 @@
         <icon-arrow-down fill="white" />
       </template>
       <b-dropdown-item>
-        <icon-account-circle fill="#888888" />
-        <span>Profile</span>
+        <router-link to="profile">
+          <icon-account-circle fill="#888888" />
+          <span>Profile</span>
+        </router-link>
       </b-dropdown-item>
       <b-dropdown-divider />
       <b-dropdown-item>
-        <icon-manage-accounts fill="#888888" />
-        <span>Settings</span>
+        <router-link to="settings">
+          <icon-manage-accounts fill="#888888" />
+          <span>Settings</span>
+        </router-link>
       </b-dropdown-item>
       <b-dropdown-divider />
       <b-dropdown-item>
-        <icon-logout fill="#888888" />
-        <span>Logout</span>
+        <a href="#">
+          <icon-logout fill="#888888" />
+          <span>Logout</span>
+        </a>
       </b-dropdown-item>
     </b-nav-item-dropdown>
     <b-nav-item v-else>
@@ -32,7 +38,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 import IconMenuOpen from "@/components/icons/IconMenuOpen.vue";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconAccountCircle from "@/components/icons/IconAccountCircle.vue";
@@ -49,8 +55,7 @@ export default {
     IconLogout,
   },
   computed: {
-    ...mapState(["userName"]),
-    ...mapGetters(["isLogin"]),
+    ...mapGetters(["isLogin", "userName"]),
   },
   methods: {
     ...mapMutations(["toggleSideBar"]),
@@ -144,19 +149,37 @@ export default {
       overflow: hidden;
 
       .dropdown-item {
-        padding: 16px;
+        padding: 0;
         font-weight: 400;
         font-size: 14px;
         line-height: 16px;
         letter-spacing: 0.02em;
         color: $brand-dark;
 
+        &:focus,
+        &:active {
+          background: #e9ecef;
+        }
+
         > svg {
           margin-right: 16px;
         }
 
-        &:focus {
-          background: #e9ecef;
+        > a {
+          display: block;
+          padding: 16px;
+          width: 100%;
+          height: 100%;
+          color: inherit;
+          text-decoration: none;
+
+          &:focus {
+            background: #e9ecef;
+          }
+
+          > svg {
+            margin-right: 16px;
+          }
         }
       }
 
