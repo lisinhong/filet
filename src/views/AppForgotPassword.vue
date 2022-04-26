@@ -1,6 +1,6 @@
 <template>
   <div class="app-forgot-password">
-    <div class="account">
+    <div class="account-container">
       <div class="account-header">
         <div class="company">
           <i><icon-polygon /></i>
@@ -9,21 +9,30 @@
         <router-link to="/">Home</router-link>
       </div>
       <div class="account-card">
-        <div class="account-greeting"></div>
-        <b-form-group label-for="phone-number" label="Phone number (Optional)">
+        <div class="account-greeting">Forgot Password?</div>
+        <b-form-group label-for="email" label="Email">
           <b-form-input
-            id="phone-number"
-            type="tel"
-            v-model="phoneNumber"
-            placeholder="+1 123456789"
+            id="email"
+            type="email"
+            v-model="email"
+            placeholder="Type your email"
           ></b-form-input>
         </b-form-group>
+        <button type="button" :disabled="isSendDisabled" @click="handleSend">
+          Send Recovery Link
+        </button>
+        <div class="note">
+          <router-link to="login">Return to Login</router-link>
+        </div>
       </div>
       <div class="account-footer">
-        <a href="#">Privacy Policy</a>
-        <a href="#">User Notice</a>
+        <a href="#">Login Help</a>
+        <a href="#">Contact Support</a>
       </div>
     </div>
+    <b-alert fade :show="showRegisterAlert">
+      Invalid email. Please type it again!
+    </b-alert>
   </div>
 </template>
 
@@ -39,5 +48,23 @@ export default {
 .app-forgot-password {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    margin-top: auto;
+  }
+
+  .note {
+    margin-top: 32px;
+    font-weight: 700;
+    color: $primary-dark-1;
+    text-align: center;
+
+    a {
+      margin: 0;
+    }
+  }
 }
 </style>
