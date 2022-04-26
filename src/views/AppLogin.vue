@@ -35,7 +35,9 @@
         >
           Keep me logged in
         </b-form-checkbox>
-        <button :disabled="isLoginDisabled" @click="handleLogin">Login</button>
+        <button type="button" :disabled="isLoginDisabled" @click="handleLogin">
+          Login
+        </button>
         <div class="note">
           <span>Don’t have an account?</span>
           <router-link to="register">Create a free account</router-link>
