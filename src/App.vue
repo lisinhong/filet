@@ -1,10 +1,13 @@
 <template>
-  <div id="app" :class="{ 'has-sidebar': showSidebar }">
-    <aside class="app-sidebar">
+  <div
+    id="app"
+    :class="{ 'has-sidebar': showSidebar && $route.meta.showAppSidebar }"
+  >
+    <aside class="app-sidebar" v-if="$route.meta.showAppSidebar">
       <app-site-map />
     </aside>
     <main class="app-main" :class="{ 'white-background': whiteBackground }">
-      <div class="app-header-wrapper">
+      <div class="app-header-wrapper" v-if="$route.meta.showAppHeader">
         <app-header />
       </div>
       <div class="app-info-wrapper" v-if="$route.meta.showAppInfo">

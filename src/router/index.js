@@ -9,6 +9,8 @@ const routes = [
     name: "Dashboard",
     meta: {
       showAppInfo: true,
+      showAppHeader: true,
+      showAppSidebar: true,
     },
     component: () => import("@/views/AppDashboard.vue"),
   },
@@ -17,6 +19,8 @@ const routes = [
     name: "My Page",
     meta: {
       showAppInfo: true,
+      showAppHeader: true,
+      showAppSidebar: true,
     },
     component: () => import("@/views/AppMyPage.vue"),
   },
@@ -25,6 +29,8 @@ const routes = [
     name: "Products",
     meta: {
       showAppInfo: true,
+      showAppHeader: true,
+      showAppSidebar: true,
     },
     component: () => import("@/views/AppProducts.vue"),
   },
@@ -33,6 +39,8 @@ const routes = [
     name: "Faq",
     meta: {
       showAppInfo: true,
+      showAppHeader: true,
+      showAppSidebar: true,
     },
     component: () => import("@/views/AppFaq.vue"),
   },
@@ -41,6 +49,8 @@ const routes = [
     name: "Contact",
     meta: {
       showAppInfo: true,
+      showAppHeader: true,
+      showAppSidebar: true,
     },
     component: () => import("@/views/AppContact.vue"),
   },
@@ -49,6 +59,8 @@ const routes = [
     name: "Profile",
     meta: {
       showAppInfo: true,
+      showAppHeader: true,
+      showAppSidebar: true,
     },
     component: () => import("@/views/AppProfile.vue"),
   },
@@ -57,17 +69,42 @@ const routes = [
     name: "Settings",
     meta: {
       showAppInfo: true,
+      showAppHeader: true,
+      showAppSidebar: true,
     },
     component: () => import("@/views/AppSettings.vue"),
   },
   {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/AppLogin.vue"),
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("@/views/AppRegister.vue"),
+  },
+  {
+    path: "/forgot-password",
+    name: "ForgotPassword",
+    component: () => import("@/views/AppForgotPassword.vue"),
+  },
+  {
     path: "/error",
     name: "Error",
+    meta: {
+      showAppHeader: true,
+      showAppSidebar: true,
+    },
     component: () => import("@/views/AppError.vue"),
   },
   {
     path: "*",
     name: "Not Found",
+    meta: {
+      showAppHeader: true,
+      showAppSidebar: true,
+    },
     component: () => import("@/views/AppNotFound.vue"),
   },
 ];

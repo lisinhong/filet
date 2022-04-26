@@ -18,7 +18,12 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group label-for="email" label="Email">
-          <b-form-input id="email" type="email" v-model="email"></b-form-input>
+          <b-form-input
+            id="email"
+            type="email"
+            v-model="email"
+            placeholder="example@example.com"
+          ></b-form-input>
         </b-form-group>
         <b-form-group label-for="phone-number" label="Phone number (Optional)">
           <b-form-input

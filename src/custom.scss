@@ -25,6 +25,7 @@ $graphy-2: #12ed5f;
 $graphy-3: #4312ed;
 
 body {
+  position: relative;
   background-color: $gray-8 !important;
 }
 
@@ -87,4 +88,194 @@ body {
     margin-top: 28px;
     flex: 1 1 auto;
   }
+}
+
+.account-container {
+  width: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .account-header {
+    margin-bottom: 36px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .company {
+      display: flex;
+      font-weight: 900;
+      font-size: 36px;
+      line-height: 42px;
+      letter-spacing: 0.02em;
+      color: $brand-dark;
+    }
+
+    i {
+      margin-right: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        width: 34px;
+        height: 34px;
+        fill: #c4c4c4;
+      }
+    }
+
+    a {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: right;
+      letter-spacing: 0.02em;
+      text-decoration-line: underline;
+      color: $primary-dark-1;
+    }
+  }
+
+  .account-card {
+    margin-bottom: 32px;
+    padding: 32px;
+    width: 100%;
+    border-radius: 4px;
+    background-color: $white;
+    box-shadow: 0 0 20px rgba($black, 0.1);
+  }
+
+  .account-greeting {
+    margin-bottom: 40px;
+    width: 100%;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: $brand-dark;
+  }
+
+  .form-group {
+    position: relative;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: $brand-dark;
+
+    & + .form-group {
+      margin-top: 24px;
+    }
+
+    a {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: $primary-dark-1;
+    }
+
+    label {
+      margin-bottom: 8px;
+    }
+
+    input {
+      &::placeholder {
+        color: $gray-5;
+      }
+    }
+  }
+
+  .custom-checkbox {
+    margin: 12px 0 20px;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: $gray-2;
+
+    input {
+      margin-right: 12px;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #888888;
+    }
+  }
+
+  button {
+    margin-bottom: 24px;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    border: none;
+    background: $brand-dark;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: $white;
+
+    &:disabled {
+      background-color: $gray-8;
+      color: $gray-6;
+      cursor: not-allowed;
+    }
+  }
+
+  .note {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: $gray-2;
+
+    a {
+      margin-left: 16px;
+      color: $primary-dark-1;
+    }
+  }
+
+  .account-footer {
+    text-align: center;
+
+    a {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.02em;
+      text-decoration-line: underline;
+      color: $primary-dark-1;
+
+      & + a {
+        margin-left: 24px;
+      }
+    }
+  }
+}
+
+.alert {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 16px;
+  min-width: 448px;
+  background: #ffe9ea;
+  border: 1px solid #ff4d4f;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  color: $brand-dark;
 }
