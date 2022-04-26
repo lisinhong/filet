@@ -30,17 +30,30 @@
         <a href="#">Contact Support</a>
       </div>
     </div>
-    <b-alert fade :show="showRegisterAlert">
-      Invalid email. Please type it again!
-    </b-alert>
   </div>
 </template>
 
 <script>
+import IconPolygon from "@/components/icons/IconPolygon.vue";
+
 export default {
   name: "AppForgotPassword",
-  components: {},
-  methods: {},
+  components: {
+    IconPolygon,
+  },
+  data() {
+    return {
+      email: null,
+    };
+  },
+  computed: {
+    isSendDisabled() {
+      return !this.email;
+    },
+  },
+  methods: {
+    handleSend() {},
+  },
 };
 </script>
 

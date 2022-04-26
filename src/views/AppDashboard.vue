@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 import ProductInfo from "@/components/ProductInfo.vue";
 import LineChart from "@/components/charts/LineChart.vue";
@@ -44,19 +45,25 @@ export default {
     LineChart,
   },
   data() {
-    return {
-      doughnutChartData: {
+    return {};
+  },
+  computed: {
+    ...mapState(["tvl", "product", "tvlHistory"]),
+    doughnutChartData() {
+      return {
         labels: ["Total Deposit", "Fixed Interest"],
         datasets: [
           {
-            data: [40, 20],
+            data: [this.tvl.deposit, this.tvl.interest],
             backgroundColor: ["#A81B15", "#EDC612"],
             borderWidth: 0,
             cutout: "80%",
           },
         ],
-      },
-      doughnutChartOptions: {
+      };
+    },
+    doughnutChartOptions() {
+      return {
         maintainAspectRatio: false,
         plugins: {
           legend: {
@@ -66,48 +73,46 @@ export default {
             enabled: false,
           },
         },
-      },
-      lineChartData: {
-        labels: [
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-          "a",
-        ],
+      };
+    },
+    lineChartLabelList() {
+      return this.tvlHistory.map((tvl) => tvl.date);
+    },
+    lineChartDataList() {
+      return this.tvlHistory.map((tvl) => tvl.price);
+    },
+    lineChartData() {
+      return {
+        labels: this.lineChartLabelList,
         datasets: [
           {
-            data: [
-              33, 411, 543, 1231, 443, 812, 376, 656, 1657, 776, 3554, 7324,
-              3325, 8345, 3234, 2123,
-            ],
+            data: this.lineChartDataList,
             fill: false,
             borderWidth: 2,
             borderColor: "#4312ED",
             tension: 0.4,
           },
         ],
-      },
-      lineChartOptions: {
+      };
+    },
+    lineChartOptions() {
+      return {
         maintainAspectRatio: false,
         plugins: {
           legend: {
             display: false,
           },
         },
-      },
-    };
+      };
+    },
+  },
+  created() {
+    this.getTVL();
+    this.getProduct({ id: 0 });
+    this.getTVLHistory();
+  },
+  methods: {
+    ...mapActions(["getTVL", "getTVLHistory", "getProduct"]),
   },
 };
 </script>
