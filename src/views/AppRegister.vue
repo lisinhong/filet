@@ -115,8 +115,8 @@
         <a href="#">User Notice</a>
       </div>
     </div>
-    <b-alert fade :show="showAlert">
-      {{ alertText }}
+    <b-alert fade :show="true">
+      {{ passwordAlertText }}
     </b-alert>
   </div>
 </template>
@@ -149,6 +149,8 @@ export default {
       alertText: "",
       registerAlertText: "Invalid email. Please type it again!",
       otpAlertText: "Please check your code again!",
+      passwordAlertText:
+        "Passwords are different. Please re-type your password.",
     };
   },
   computed: {
@@ -247,6 +249,27 @@ export default {
 
     button {
       margin-top: auto;
+    }
+  }
+
+  @media screen and (max-device-width: 480px) {
+    .step-3 {
+      .password-container {
+        flex-wrap: wrap;
+
+        .half {
+          width: 100%;
+
+          & + .half {
+            margin-top: 24px;
+            margin-left: 0;
+          }
+        }
+      }
+
+      button {
+        margin-top: 56px;
+      }
     }
   }
 }

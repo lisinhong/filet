@@ -67,7 +67,7 @@ export default {
       email: null,
       password: null,
       keepLogIn: false,
-      showLoginAlert: true,
+      showLoginAlert: false,
     };
   },
   computed: {
@@ -94,5 +94,21 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-device-width: 480px) {
+    .custom-checkbox {
+      margin-top: 12px;
+    }
+
+    .note {
+      span {
+        display: block;
+      }
+
+      a {
+        margin: 16px 0 0 0;
+      }
+    }
+  }
 }
 </style>
