@@ -279,7 +279,7 @@ body {
 }
 
 .alert {
-  position: absolute;
+  position: fixed;
   top: 64px;
   left: 50%;
   transform: translateX(-50%);
@@ -293,4 +293,30 @@ body {
   line-height: 16px;
   letter-spacing: 0.02em;
   color: $brand-dark;
+}
+
+@media screen and (max-device-width: 480px) {
+  .account-container {
+    width: 100%;
+    height: 545px;
+
+    .custom-checkbox {
+      margin-top: 12px;
+    }
+
+    .note {
+      a {
+        margin: 16px 0 0 0;
+        display: block;
+      }
+    }
+  }
+
+  .alert {
+    top: 24px;
+    left: 24px;
+    right: 24px;
+    transform: none;
+    min-width: 0;
+  }
 }

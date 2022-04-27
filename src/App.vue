@@ -92,5 +92,13 @@ export default {
       max-width: calc(100% - #{$sidebar-width});
     }
   }
+
+  @media screen and (max-device-width: 480px) {
+    .app-main {
+      .app-content-wrapper {
+        padding: 48px 24px;
+      }
+    }
+  }
 }
 </style>

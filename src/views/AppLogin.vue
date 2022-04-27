@@ -67,7 +67,7 @@ export default {
       email: null,
       password: null,
       keepLogIn: false,
-      showLoginAlert: false,
+      showLoginAlert: true,
     };
   },
   computed: {
