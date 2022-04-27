@@ -8,7 +8,7 @@
         </div>
         <router-link to="/">Home</router-link>
       </div>
-      <div class="account-card">
+      <div class="account-card step-1" v-if="step === 1">
         <div class="account-greeting">Create Account</div>
         <b-form-group label-for="email" label="Email">
           <b-form-input
@@ -28,8 +28,8 @@
         </b-form-checkbox>
         <button
           type="button"
-          :disabled="isRegisterDisabled"
-          @click="handleRegister"
+          :disabled="isVerifyEmailDisabled"
+          @click="handleVerifyEmail"
         >
           Verify your email
         </button>
@@ -38,13 +38,85 @@
           <router-link to="login">Login</router-link>
         </div>
       </div>
+      <div class="account-card step-2" v-if="step === 2">
+        <div class="account-greeting">Enter the code we sent to your email</div>
+        <label>Enter the 4-digit code to verify your email</label>
+        <b-input-group>
+          <b-form-input
+            v-for="(n, index) in 4"
+            :key="index"
+            ref="otp"
+            v-model="otp[index]"
+            :state="otpState"
+            @input="handleOtpInput(index)"
+          ></b-form-input>
+        </b-input-group>
+        <button
+          type="button"
+          :disabled="isVerifyOtpDisabled"
+          @click="handleVerifyOtp"
+        >
+          Continue
+        </button>
+      </div>
+      <div class="account-card step-3" v-if="step === 3">
+        <div class="account-greeting">Fill out login information</div>
+        <b-form-group label-for="firstName" label="First Name">
+          <b-form-input
+            id="firstName"
+            type="text"
+            v-model="firstName"
+            placeholder="Type your first name"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group label-for="lastName" label="Last Name">
+          <b-form-input
+            id="lastName"
+            type="text"
+            v-model="lastName"
+            placeholder="Type your last name"
+          ></b-form-input>
+        </b-form-group>
+        <div class="password-container">
+          <b-form-group class="half" label-for="password" label="Password">
+            <b-form-input
+              id="password"
+              type="password"
+              v-model="password"
+              placeholder="Type your password"
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            class="half"
+            label-for="confirmPassword"
+            label="Confirm Password"
+          >
+            <b-form-input
+              id="confirmPassword"
+              type="password"
+              v-model="confirmPassword"
+              placeholder="Confirm Password"
+            ></b-form-input>
+          </b-form-group>
+        </div>
+        <div class="note">
+          * At least 8 characters with 1 upper case, 1 lower case, and 1 number.
+        </div>
+        <button
+          type="button"
+          :disabled="isRegisterDisabled"
+          @click="handleRegister"
+        >
+          Continue
+        </button>
+      </div>
       <div class="account-footer">
         <a href="#">Privacy Policy</a>
         <a href="#">User Notice</a>
       </div>
     </div>
-    <b-alert fade :show="showRegisterAlert">
-      Invalid email. Please type it again!
+    <b-alert fade :show="showAlert">
+      {{ alertText }}
     </b-alert>
   </div>
 </template>
@@ -61,21 +133,55 @@ export default {
     return {
       email: null,
       agree: false,
-      showRegisterAlert: false,
+      step: 3,
+      otp: {
+        0: "",
+        1: "",
+        2: "",
+        3: "",
+      },
+      otpState: null,
+      firstName: null,
+      lastName: null,
+      password: null,
+      confirmPassword: null,
+      showAlert: false,
+      alertText: "",
+      registerAlertText: "Invalid email. Please type it again!",
+      otpAlertText: "Please check your code again!",
     };
   },
   computed: {
-    isRegisterDisabled() {
+    isVerifyEmailDisabled() {
       return !this.email || !this.agree;
+    },
+    isVerifyOtpDisabled() {
+      return (
+        this.otp[0] === "" ||
+        this.otp[1] === "" ||
+        this.otp[2] === "" ||
+        this.otp[3] === ""
+      );
+    },
+    isRegisterDisabled() {
+      return (
+        !this.firstName ||
+        !this.lastName ||
+        !this.password ||
+        !this.confirmPassword
+      );
     },
   },
   methods: {
-    handleRegister() {
-      this.showRegisterAlert = true;
-
-      setTimeout(() => {
-        this.showRegisterAlert = false;
-      }, 3000);
+    handleVerifyEmail() {},
+    handleRegister() {},
+    handleVerifyOtp() {},
+    handleOtpInput(index) {
+      if (index < 3) {
+        this.$refs.otp[index + 1].focus();
+        return;
+      }
+      this.$refs.otp[index].blur();
     },
   },
 };
@@ -88,5 +194,60 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .step-2 {
+    label {
+      margin-bottom: 8px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.02em;
+      color: $brand-dark;
+    }
+
+    .input-group {
+      gap: 24px;
+
+      input {
+        border-radius: 4px !important;
+        text-align: center;
+
+        &.form-control.is-invalid {
+          padding: 6px 12px;
+          background: none;
+          border-color: #ff4d4f;
+        }
+      }
+    }
+
+    button {
+      margin-top: auto;
+    }
+  }
+
+  .step-3 {
+    .password-container {
+      margin: 24px 0 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-group {
+      flex: 0 1 auto;
+
+      &.half {
+        margin: 0;
+        width: 50%;
+
+        & + .half {
+          margin-left: 24px;
+        }
+      }
+    }
+
+    button {
+      margin-top: auto;
+    }
+  }
 }
 </style>
