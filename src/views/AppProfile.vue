@@ -91,5 +91,28 @@ export default {
       }
     }
   }
+
+  @media screen and (max-device-width: 480px) {
+    flex-direction: column;
+    justify-content: start;
+    flex-wrap: wrap;
+    padding: 0;
+
+    .personal-info {
+      width: 100%;
+    }
+
+    .input-container {
+      flex-wrap: wrap;
+
+      .form-group {
+        flex: 0 0 100%;
+
+        & + .form-group {
+          margin: 24px 0 0;
+        }
+      }
+    }
+  }
 }
 </style>
