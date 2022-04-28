@@ -140,11 +140,24 @@ export default {
   @media screen and (max-device-width: 480px) {
     .info {
       flex-direction: column;
+      align-items: stretch;
     }
 
     .btn-more,
     button {
       margin: 48px auto 0;
+    }
+
+    .rate {
+      margin: 0;
+    }
+
+    .description {
+      margin: 0 40px;
+
+      & + .description {
+        margin-top: 16px;
+      }
     }
   }
 }
