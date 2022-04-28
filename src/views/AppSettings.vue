@@ -222,9 +222,40 @@ export default {
     margin-top: 48px;
     display: flex;
 
+    .input-container {
+      border: none;
+    }
+
     .form-group {
       flex: 1 1 100%;
       margin-left: 0 !important;
+    }
+  }
+
+  @media screen and (max-device-width: 480px) {
+    padding: 0;
+
+    .account-info {
+      flex-direction: column;
+    }
+
+    .setting-title {
+      margin-bottom: 36px;
+    }
+
+    .input-container {
+      .form-group {
+        flex: 1 1 100%;
+        width: 100%;
+
+        &:nth-child(2n) {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .change-password {
+      flex-direction: column;
     }
   }
 }
