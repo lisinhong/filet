@@ -61,7 +61,7 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    toggleSideBar(state) {
+    toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
     },
     showAppModal(state, data) {

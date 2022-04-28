@@ -108,7 +108,7 @@ export default {
   },
   created() {
     this.getTVL();
-    this.getProduct({ id: 0 });
+    this.getProduct({ id: "0" });
     this.getTVLHistory();
   },
   methods: {

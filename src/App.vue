@@ -41,14 +41,26 @@ export default {
     whiteBackground() {
       return this.$route.name === "Profile" || this.$route.name === "Settings";
     },
+    isMobile() {
+      return document.documentElement.clientWidth < 481;
+    },
+  },
+  beforeMount() {
+    if (this.isMobile && this.showSidebar) {
+      this.toggleSidebar();
+    }
   },
   watch: {
     $route() {
       this.hideAppModal();
+
+      if (this.isMobile && this.showSidebar) {
+        this.toggleSidebar();
+      }
     },
   },
   methods: {
-    ...mapMutations(["hideAppModal"]),
+    ...mapMutations(["hideAppModal", "toggleSidebar"]),
   },
 };
 </script>
@@ -95,8 +107,31 @@ export default {
 
   @media screen and (max-device-width: 480px) {
     .app-main {
+      max-width: 100%;
+
       .app-content-wrapper {
         padding: 48px 24px;
+      }
+    }
+
+    .app-sidebar {
+      margin: 0;
+      position: fixed;
+      width: 100vw;
+      min-height: 100%;
+      top: 0;
+      left: -100vw;
+      z-index: 100;
+    }
+
+    &.has-sidebar {
+      .app-main {
+        max-width: 100%;
+      }
+
+      .app-sidebar {
+        margin-left: 0;
+        left: 0;
       }
     }
   }

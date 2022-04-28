@@ -1,6 +1,6 @@
 <template>
   <b-nav tabs class="app-header">
-    <b-nav-item @click="toggleSideBar">
+    <b-nav-item @click="toggleSidebar">
       <icon-menu-open fill="white" />
     </b-nav-item>
 
@@ -58,7 +58,7 @@ export default {
     ...mapGetters(["isLogin", "userName"]),
   },
   methods: {
-    ...mapMutations(["toggleSideBar"]),
+    ...mapMutations(["toggleSidebar"]),
   },
 };
 </script>
@@ -185,6 +185,16 @@ export default {
 
       .dropdown-divider {
         margin: 0;
+      }
+    }
+  }
+
+  @media screen and (max-device-width: 480px) {
+    padding: 0 24px;
+
+    ::v-deep {
+      .dropdown-toggle {
+        display: none;
       }
     }
   }
