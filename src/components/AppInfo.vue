@@ -61,6 +61,11 @@ export default {
 
   @media screen and (max-device-width: 480px) {
     padding: 24px;
+
+    .divider {
+      left: 0;
+      right: 0;
+    }
   }
 }
 </style>
