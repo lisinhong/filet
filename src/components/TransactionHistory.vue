@@ -77,5 +77,16 @@ export default {
       font-weight: 500;
     }
   }
+
+  @media screen and (max-device-width: 480px) {
+    .record {
+      margin-top: 8px;
+      flex-direction: column;
+    }
+
+    .amount {
+      margin-bottom: 24px;
+    }
+  }
 }
 </style>
