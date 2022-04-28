@@ -136,5 +136,16 @@ export default {
     letter-spacing: 0.02em;
     color: $white;
   }
+
+  @media screen and (max-device-width: 480px) {
+    .info {
+      flex-direction: column;
+    }
+
+    .btn-more,
+    button {
+      margin: 48px auto 0;
+    }
+  }
 }
 </style>

@@ -233,5 +233,24 @@ export default {
       }
     }
   }
+
+  @media screen and (max-device-width: 480px) {
+    margin-top: 24px;
+    flex-direction: column;
+
+    .legend-container {
+      margin-top: 32px;
+
+      ::v-deep {
+        > ul {
+          margin: 0;
+        }
+      }
+    }
+
+    .button-list {
+      display: none;
+    }
+  }
 }
 </style>

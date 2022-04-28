@@ -42,7 +42,7 @@ body {
   min-height: 320px;
   display: flex;
   flex-direction: column;
-  padding: 24px 32px;
+  padding: 24px 32px 32px;
   border-radius: 4px;
   background-color: $white;
   box-shadow: 0 0 20px rgba($black, 0.1);
@@ -305,6 +305,10 @@ body {
       width: 100%;
       min-height: 512px;
     }
+  }
+
+  .app-card {
+    width: 100%;
   }
 
   .alert {

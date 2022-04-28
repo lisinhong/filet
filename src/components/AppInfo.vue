@@ -58,5 +58,9 @@ export default {
     height: 1px;
     background-color: #ebedef;
   }
+
+  @media screen and (max-device-width: 480px) {
+    padding: 24px;
+  }
 }
 </style>
