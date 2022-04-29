@@ -31,8 +31,10 @@
       </b-dropdown-item>
     </b-nav-item-dropdown>
     <b-nav-item v-else>
-      <button class="btn-register">Register</button>
-      <button class="btn-login">Login</button>
+      <button class="btn-register" @click="$router.push('register')">
+        Register
+      </button>
+      <button class="btn-login" @click="$router.push('login')">Login</button>
     </b-nav-item>
   </b-nav>
 </template>

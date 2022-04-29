@@ -12,7 +12,7 @@ const $axios = axios.create({
 export default new Vuex.Store({
   state: {
     showSidebar: true,
-    token: "123",
+    token: "",
     userInfo: {
       firstName: null,
       lastName: null,
@@ -39,8 +39,6 @@ export default new Vuex.Store({
       mdd: null,
       startDate: null,
     },
-    firstName: "Kelly", // TODO: remove
-    lastName: "Anderson", // TODO: remove
     showModal: false,
     modalTitle: null,
     modalPlaceholder: null,
@@ -57,7 +55,14 @@ export default new Vuex.Store({
       return !!state.token;
     },
     userName(state) {
-      return `${state.firstName} ${state.lastName}`;
+      const {
+        userInfo: { firstName, lastName },
+      } = state;
+
+      if (!firstName && !lastName) {
+        return "";
+      }
+      return `${state.userInfo.firstName} ${state.userInfo.lastName}`;
     },
   },
   mutations: {
@@ -106,21 +111,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async login({ commit }, data) {
-      try {
-        const response = await $axios.post("user/login", data);
-
-        commit("setToken", response.data.token);
-      } catch (error) {
-        console.error(error);
-      }
+    login(context, data) {
+      return $axios.post("user/login", data);
     },
-    async logout(data) {
-      try {
-        await $axios.post("user/logout", data);
-      } catch (error) {
-        console.error(error);
-      }
+    logout(context, data) {
+      return $axios.post("user/logout", data);
     },
     async verifyEmail(data) {
       try {
@@ -143,14 +138,8 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
-    async getUserInfo({ commit }, data) {
-      try {
-        const response = await $axios.post("user/info", data);
-
-        commit("setUserInfo", response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    getUserInfo(context, data) {
+      return $axios.post("user/info", data);
     },
     async getUserAsset({ commit }, data) {
       try {
@@ -193,6 +182,48 @@ export default new Vuex.Store({
         const response = await $axios.post("product/detail", data);
 
         commit("setProduct", response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async apply(data) {
+      try {
+        await $axios.post("apply", data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deposit(data) {
+      try {
+        await $axios.post("deposit", data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async withdraw(data) {
+      try {
+        await $axios.post("withdraw", data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async redeem(data) {
+      try {
+        await $axios.post("redeem", data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async contact(data) {
+      try {
+        await $axios.post("contact", data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async recoverPassword(code) {
+      try {
+        await $axios.post(`recover/${code}`);
       } catch (error) {
         console.error(error);
       }

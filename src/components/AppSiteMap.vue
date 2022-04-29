@@ -199,7 +199,7 @@ export default {
   }
 
   .divider {
-    // display: none;
+    display: none;
     margin: auto -16px 4px;
     width: 100vw;
     height: 1px;

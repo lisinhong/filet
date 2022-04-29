@@ -193,6 +193,11 @@ body {
       &::placeholder {
         color: $gray-5;
       }
+
+      &.is-invalid {
+        background: none;
+        border-color: #ff4d4f;
+      }
     }
   }
 

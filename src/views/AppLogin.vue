@@ -16,6 +16,7 @@
             type="email"
             v-model="email"
             placeholder="example@example.com"
+            :state="loginState"
           ></b-form-input>
         </b-form-group>
         <b-form-group label-for="password" label="Password">
@@ -24,6 +25,7 @@
             type="password"
             v-model="password"
             placeholder="Type your password"
+            :state="loginState"
           ></b-form-input>
           <router-link to="forgot-password">Forgot Password?</router-link>
         </b-form-group>
@@ -55,6 +57,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from "vuex";
 import IconPolygon from "@/components/icons/IconPolygon.vue";
 
 export default {
@@ -68,15 +71,50 @@ export default {
       password: null,
       keepLogIn: false,
       showLoginAlert: false,
+      loginState: null,
+      isLoading: false,
     };
   },
   computed: {
     isLoginDisabled() {
-      return !this.email || !this.password;
+      return !this.email || !this.password || this.isLoading;
     },
   },
   methods: {
-    handleLogin() {
+    ...mapActions(["login", "getUserInfo"]),
+    ...mapMutations(["setToken", "setUserInfo"]),
+    async handleLogin() {
+      this.loginState = null;
+      this.isLoading = true;
+
+      try {
+        const loginResponse = await this.login({
+          email: this.email,
+          password: this.password,
+        });
+
+        const token = loginResponse.data.token;
+
+        this.setToken(token);
+
+        if (this.keepLogIn) {
+          this.$cookies.set("token", token);
+        }
+
+        const userInfoResponse = await this.getUserInfo({
+          token: token,
+        });
+
+        this.setUserInfo(userInfoResponse.data);
+        this.$router.replace("/");
+      } catch (error) {
+        this.handleLoginError();
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    handleLoginError() {
+      this.loginState = false;
       this.showLoginAlert = true;
 
       setTimeout(() => {

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import AppHeader from "@/components/AppHeader.vue";
 import AppSiteMap from "@/components/AppSiteMap.vue";
 import AppInfo from "@/components/AppInfo.vue";
@@ -45,6 +45,19 @@ export default {
       return document.documentElement.clientWidth < 481;
     },
   },
+  async created() {
+    const token = this.$cookies.get("token");
+
+    if (token) {
+      this.setToken(token);
+    }
+
+    const userInfoResponse = await this.getUserInfo({
+      token: token,
+    });
+
+    this.setUserInfo(userInfoResponse.data);
+  },
   beforeMount() {
     if (this.isMobile && this.showSidebar) {
       this.toggleSidebar();
@@ -60,7 +73,13 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["hideAppModal", "toggleSidebar"]),
+    ...mapMutations([
+      "hideAppModal",
+      "toggleSidebar",
+      "setToken",
+      "setUserInfo",
+    ]),
+    ...mapActions(["getUserInfo"]),
   },
 };
 </script>
@@ -81,7 +100,6 @@ export default {
   .app-main {
     flex: 1 1 auto;
     max-width: 100%;
-    transition: 0.4s ease;
     display: flex;
     flex-direction: column;
 
@@ -102,6 +120,7 @@ export default {
 
     .app-main {
       max-width: calc(100% - #{$sidebar-width});
+      transition: 0.4s ease;
     }
   }
 
