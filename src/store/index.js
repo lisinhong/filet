@@ -117,26 +117,14 @@ export default new Vuex.Store({
     logout(context, data) {
       return $axios.post("user/logout", data);
     },
-    async verifyEmail(data) {
-      try {
-        await $axios.post("verify/email", data);
-      } catch (error) {
-        console.error(error);
-      }
+    verifyEmail(context, data) {
+      return $axios.post("verify/email", data);
     },
-    async verifyOTP(data) {
-      try {
-        await $axios.post("verify/otp", data);
-      } catch (error) {
-        console.error(error);
-      }
+    verifyOTP(context, data) {
+      return $axios.post("verify/otp", data);
     },
-    async register(data) {
-      try {
-        await $axios.post("user/create", data);
-      } catch (error) {
-        console.error(error);
-      }
+    register(context, data) {
+      return $axios.post("user/create", data);
     },
     getUserInfo(context, data) {
       return $axios.post("user/info", data);

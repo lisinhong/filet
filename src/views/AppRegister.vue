@@ -15,6 +15,7 @@
             id="email"
             type="email"
             v-model="email"
+            :state="emailState"
             placeholder="example@example.com"
           ></b-form-input>
         </b-form-group>
@@ -66,6 +67,7 @@
             id="firstName"
             type="text"
             v-model="firstName"
+            :state="registerState"
             placeholder="Type your first name"
           ></b-form-input>
         </b-form-group>
@@ -74,6 +76,7 @@
             id="lastName"
             type="text"
             v-model="lastName"
+            :state="registerState"
             placeholder="Type your last name"
           ></b-form-input>
         </b-form-group>
@@ -83,6 +86,7 @@
               id="password"
               type="password"
               v-model="password"
+              :state="registerState"
               placeholder="Type your password"
             ></b-form-input>
           </b-form-group>
@@ -95,6 +99,7 @@
               id="confirmPassword"
               type="password"
               v-model="confirmPassword"
+              :state="registerState"
               placeholder="Confirm Password"
             ></b-form-input>
           </b-form-group>
@@ -102,6 +107,15 @@
         <div class="note">
           * At least 8 characters with 1 upper case, 1 lower case, and 1 number.
         </div>
+        <b-form-group label-for="referrer" label="Referrer">
+          <b-form-input
+            id="referrer"
+            type="text"
+            v-model="referrer"
+            :state="registerState"
+            placeholder="Type your referrer"
+          ></b-form-input>
+        </b-form-group>
         <button
           type="button"
           :disabled="isRegisterDisabled"
@@ -115,13 +129,14 @@
         <a href="#">User Notice</a>
       </div>
     </div>
-    <b-alert fade :show="true">
-      {{ passwordAlertText }}
+    <b-alert fade :show="showAlert">
+      {{ alertText }}
     </b-alert>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import IconPolygon from "@/components/icons/IconPolygon.vue";
 
 export default {
@@ -131,38 +146,39 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       email: null,
       agree: false,
-      step: 3,
+      step: 1,
       otp: {
         0: "",
         1: "",
         2: "",
         3: "",
       },
+      emailState: null,
       otpState: null,
+      registerState: null,
       firstName: null,
       lastName: null,
       password: null,
       confirmPassword: null,
+      referrer: null,
       showAlert: false,
-      alertText: "",
-      registerAlertText: "Invalid email. Please type it again!",
-      otpAlertText: "Please check your code again!",
-      passwordAlertText:
-        "Passwords are different. Please re-type your password.",
+      alertText: null,
     };
   },
   computed: {
     isVerifyEmailDisabled() {
-      return !this.email || !this.agree;
+      return !this.email || !this.agree || this.isLoading;
     },
     isVerifyOtpDisabled() {
       return (
         this.otp[0] === "" ||
         this.otp[1] === "" ||
         this.otp[2] === "" ||
-        this.otp[3] === ""
+        this.otp[3] === "" ||
+        this.isLoading
       );
     },
     isRegisterDisabled() {
@@ -170,20 +186,89 @@ export default {
         !this.firstName ||
         !this.lastName ||
         !this.password ||
-        !this.confirmPassword
+        !this.confirmPassword ||
+        this.isLoading
       );
     },
   },
   methods: {
-    handleVerifyEmail() {},
-    handleRegister() {},
-    handleVerifyOtp() {},
+    ...mapActions(["verifyEmail", "verifyOTP", "register"]),
+    async handleVerifyEmail() {
+      this.isLoading = true;
+      this.alertText = null;
+      this.emailState = null;
+
+      try {
+        await this.verifyEmail({
+          email: this.email,
+        });
+        this.step = 2;
+      } catch (error) {
+        this.emailState = false;
+        this.handleError(error?.response?.data?.message);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async handleVerifyOtp() {
+      this.isLoading = true;
+      this.alertText = null;
+      this.otpState = null;
+
+      try {
+        await this.verifyOTP({
+          email: this.email,
+          otpCode: Object.values(this.otp).join(""),
+        });
+        this.step = 3;
+      } catch (error) {
+        this.otpState = false;
+        this.handleError(error?.response?.data?.message);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async handleRegister() {
+      this.isLoading = true;
+      this.alertText = null;
+      this.registerState = null;
+
+      if (this.password !== this.confirmPassword) {
+        this.handleError(
+          "Passwords are different. Please re-type your password."
+        );
+      }
+
+      try {
+        await this.register({
+          email: this.email,
+          password: this.password,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          referralFrom: this.referrer,
+        });
+        this.$router.replace("/");
+      } catch (error) {
+        this.registerState = false;
+        this.handleError(error?.response?.data?.message);
+      } finally {
+        this.isLoading = false;
+      }
+    },
     handleOtpInput(index) {
       if (index < 3) {
         this.$refs.otp[index + 1].focus();
         return;
       }
       this.$refs.otp[index].blur();
+    },
+    handleError(message) {
+      this.showAlert = true;
+      this.alertText = message;
+
+      setTimeout(() => {
+        this.showAlert = false;
+      }, 3000);
     },
   },
 };
@@ -211,6 +296,9 @@ export default {
       gap: 24px;
 
       input {
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 44px;
         border-radius: 4px !important;
         text-align: center;
 
@@ -248,7 +336,7 @@ export default {
     }
 
     button {
-      margin-top: auto;
+      margin-top: 56px;
     }
   }
 
