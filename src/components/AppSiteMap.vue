@@ -54,7 +54,7 @@
             <span>Settings</span>
           </router-link>
         </li>
-        <li class="link-item">
+        <li class="link-item" @click="handleLogout">
           <a>
             <icon-logout />
             <span>Logout</span>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions, mapState } from "vuex";
 import IconPolygon from "@/components/icons/IconPolygon.vue";
 import IconDashboard from "@/components/icons/IconDashboard.vue";
 import IconMyPage from "@/components/icons/IconMyPage.vue";
@@ -93,10 +93,37 @@ export default {
     IconManageAccounts,
   },
   computed: {
+    ...mapState(["token", "showSidebar"]),
     ...mapGetters(["userName"]),
   },
   methods: {
-    ...mapMutations(["toggleSidebar"]),
+    ...mapMutations(["toggleSidebar", "setToken", "setUserInfo"]),
+    ...mapActions(["logout"]),
+    async handleLogout() {
+      try {
+        await this.logout({
+          token: this.token,
+        });
+
+        this.setToken(null);
+        this.setUserInfo({
+          firstName: null,
+          lastName: null,
+          mobile: null,
+          email: null,
+          myReferral: null,
+          referralFrom: null,
+          wallet: null,
+          createTime: null,
+        });
+        this.$cookies.remove("token");
+        if (this.showSidebar) {
+          this.toggleSidebar();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>
@@ -242,6 +269,10 @@ export default {
           }
         }
       }
+    }
+
+    .divider {
+      display: block;
     }
 
     .account-setting {

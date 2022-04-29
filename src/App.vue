@@ -48,9 +48,11 @@ export default {
   async created() {
     const token = this.$cookies.get("token");
 
-    if (token) {
-      this.setToken(token);
+    if (!token) {
+      return;
     }
+
+    this.setToken(token);
 
     const userInfoResponse = await this.getUserInfo({
       token: token,

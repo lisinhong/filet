@@ -23,7 +23,7 @@
         </router-link>
       </b-dropdown-item>
       <b-dropdown-divider />
-      <b-dropdown-item>
+      <b-dropdown-item @click="handleLogout">
         <a href="#">
           <icon-logout fill="#888888" />
           <span>Logout</span>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions, mapState } from "vuex";
 import IconMenuOpen from "@/components/icons/IconMenuOpen.vue";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconAccountCircle from "@/components/icons/IconAccountCircle.vue";
@@ -57,10 +57,34 @@ export default {
     IconLogout,
   },
   computed: {
+    ...mapState(["token"]),
     ...mapGetters(["isLogin", "userName"]),
   },
   methods: {
-    ...mapMutations(["toggleSidebar"]),
+    ...mapMutations(["toggleSidebar", "setToken", "setUserInfo"]),
+    ...mapActions(["logout"]),
+    async handleLogout() {
+      try {
+        await this.logout({
+          token: this.token,
+        });
+
+        this.setToken(null);
+        this.setUserInfo({
+          firstName: null,
+          lastName: null,
+          mobile: null,
+          email: null,
+          myReferral: null,
+          referralFrom: null,
+          wallet: null,
+          createTime: null,
+        });
+        this.$cookies.remove("token");
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 };
 </script>

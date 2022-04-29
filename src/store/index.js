@@ -12,7 +12,7 @@ const $axios = axios.create({
 export default new Vuex.Store({
   state: {
     showSidebar: true,
-    token: "",
+    token: null,
     userInfo: {
       firstName: null,
       lastName: null,
