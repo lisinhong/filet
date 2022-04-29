@@ -2,23 +2,37 @@
   <div class="product-info" :class="{ 'full-info': fullInfo }">
     <div class="info">
       <template v-if="fullInfo">
-        <div class="rate">8%</div>
+        <div class="rate">{{ product.rates }}%</div>
         <div class="description">
-          <p>Period: <em>30</em> Days</p>
-          <p>Minimum Investment: <em>3,000</em> USDT</p>
-          <p>Management Fee: <em>3,000</em> %</p>
+          <p>
+            Period: <em>{{ product.period }}</em> Days
+          </p>
+          <p>
+            Minimum Investment: <em>{{ product.minimal }}</em> USDT
+          </p>
+          <p>
+            Management Fee: <em>{{ product.mfee }}</em> %
+          </p>
         </div>
         <div class="description">
-          <p>Performance Fee: <em>0</em> %</p>
+          <p>
+            Performance Fee: <em>{{ product.pfee }}</em> %
+          </p>
           <p>Early Redemption Fee: <em>1</em> % / Day</p>
-          <p>Max Drawdown: <em>0</em> %</p>
+          <p>
+            Max Drawdown: <em>{{ product.mdd }}</em> %
+          </p>
         </div>
       </template>
       <template v-else>
         <div class="rate">8%</div>
         <div class="description">
-          <p>Period: <em>30</em> Days</p>
-          <p>Minimum: <em>3,000</em> USDT</p>
+          <p>
+            Period: <em>{{ product.period }}</em> Days
+          </p>
+          <p>
+            Minimum: <em>{{ product.minimal }}</em> USDT
+          </p>
         </div>
       </template>
     </div>
@@ -31,7 +45,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "ProductInfo",
@@ -48,6 +62,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  computed: {
+    ...mapState(["product"]),
   },
   methods: {
     ...mapMutations(["showAppModal"]),

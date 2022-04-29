@@ -64,6 +64,11 @@ export default new Vuex.Store({
       }
       return `${state.userInfo.firstName} ${state.userInfo.lastName}`;
     },
+    totalAsset(state) {
+      const { deposit, interest } = state.tvl;
+
+      return Number(deposit) + Number(interest);
+    },
   },
   mutations: {
     toggleSidebar(state) {
@@ -129,92 +134,38 @@ export default new Vuex.Store({
     getUserInfo(context, data) {
       return $axios.post("user/info", data);
     },
-    async getUserAsset({ commit }, data) {
-      try {
-        const response = await $axios.post("user/asset", data);
-
-        commit("setUserAsset", response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    getUserAsset(context, data) {
+      return $axios.post("user/asset", data);
     },
-    async getTVL({ commit }) {
-      try {
-        const response = await $axios.post("tvl");
-
-        commit("setTVL", response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    getTVL() {
+      return $axios.post("tvl");
     },
-    async getTVLHistory({ commit }) {
-      try {
-        const response = await $axios.post("tvl/history");
-
-        commit("setTVLHistory", response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    getTVLHistory() {
+      return $axios.post("tvl/history");
     },
-    async getProductList({ commit }) {
-      try {
-        const response = await $axios.post("product/list");
-
-        commit("setProductList", response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    getProductList() {
+      return $axios.post("product/list");
     },
-    async getProduct({ commit }, data) {
-      try {
-        const response = await $axios.post("product/detail", data);
-
-        commit("setProduct", response.data);
-      } catch (error) {
-        console.error(error);
-      }
+    getProduct(context, data) {
+      return $axios.post("product/detail", data);
     },
-    async apply(data) {
-      try {
-        await $axios.post("apply", data);
-      } catch (error) {
-        console.error(error);
-      }
+    apply(context, data) {
+      return $axios.post("apply", data);
     },
-    async deposit(data) {
-      try {
-        await $axios.post("deposit", data);
-      } catch (error) {
-        console.error(error);
-      }
+    deposit(context, data) {
+      return $axios.post("deposit", data);
     },
-    async withdraw(data) {
-      try {
-        await $axios.post("withdraw", data);
-      } catch (error) {
-        console.error(error);
-      }
+    withdraw(context, data) {
+      return $axios.post("withdraw", data);
     },
-    async redeem(data) {
-      try {
-        await $axios.post("redeem", data);
-      } catch (error) {
-        console.error(error);
-      }
+    redeem(context, data) {
+      return $axios.post("redeem", data);
     },
-    async contact(data) {
-      try {
-        await $axios.post("contact", data);
-      } catch (error) {
-        console.error(error);
-      }
+    contact(context, data) {
+      return $axios.post("contact", data);
     },
-    async recoverPassword(code) {
-      try {
-        await $axios.post(`recover/${code}`);
-      } catch (error) {
-        console.error(error);
-      }
+    recover(context, data) {
+      return $axios.post("recover", data);
     },
   },
   modules: {},

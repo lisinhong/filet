@@ -22,9 +22,10 @@
           :min="0"
           :state="inputState"
         ></b-form-input>
-        <span class="description" v-if="showDescription"
-          >Max:
-          <em @click="assignValue(modalMax)">{{ modalMax }}</em> USDT</span
+        <span class="description" v-if="showDescription">
+          Max:
+          <em @click="assignValue(modalMax)">{{ modalMax }}</em>
+          USDT</span
         >
       </b-form-group>
     </div>

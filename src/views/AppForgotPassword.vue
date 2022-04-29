@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import IconPolygon from "@/components/icons/IconPolygon.vue";
 
 export default {
@@ -44,15 +45,29 @@ export default {
   data() {
     return {
       email: null,
+      isLoading: false,
     };
   },
   computed: {
     isSendDisabled() {
-      return !this.email;
+      return !this.email || this.isLoading;
     },
   },
   methods: {
-    handleSend() {},
+    ...mapActions(["recover"]),
+    async handleSend() {
+      this.isLoading = true;
+
+      try {
+        await this.recover({
+          email: this.email,
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
   },
 };
 </script>

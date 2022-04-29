@@ -2,7 +2,7 @@
   <div class="app-dashboard app-card-list">
     <div class="app-card">
       <p class="title">Total Value Locked</p>
-      <p class="sub-title">17,915,056,819 USDT</p>
+      <p class="sub-title">{{ totalAsset }} USDT</p>
       <div class="chart">
         <doughnut-chart
           :chartData="doughnutChartData"
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 import ProductInfo from "@/components/ProductInfo.vue";
 import LineChart from "@/components/charts/LineChart.vue";
@@ -44,11 +44,9 @@ export default {
     ProductInfo,
     LineChart,
   },
-  data() {
-    return {};
-  },
   computed: {
     ...mapState(["tvl", "product", "tvlHistory"]),
+    ...mapGetters(["totalAsset"]),
     doughnutChartData() {
       return {
         labels: ["Total Deposit", "Fixed Interest"],
@@ -107,12 +105,15 @@ export default {
     },
   },
   created() {
-    this.getTVL();
-    this.getProduct({ id: "0" });
-    this.getTVLHistory();
+    this.getTVL().then((response) => this.setTVL(response.data));
+    this.getProduct({ id: "0" }).then((response) =>
+      this.setProduct(response.data)
+    );
+    this.getTVLHistory().then((response) => this.setTVLHistory(response.data));
   },
   methods: {
     ...mapActions(["getTVL", "getTVLHistory", "getProduct"]),
+    ...mapMutations(["setTVL", "setTVLHistory", "setProduct"]),
   },
 };
 </script>
