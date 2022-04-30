@@ -70,8 +70,11 @@ export default {
     justify-content: space-between;
     align-items: center;
     font-size: 18px;
+    word-break: break-all;
 
     svg {
+      flex: 0 0 24px;
+      margin-left: 12px;
       fill: #888888;
     }
   }
@@ -79,6 +82,7 @@ export default {
   .faq-description {
     padding: 24px 32px 0;
     font-size: 14px;
+    word-break: break-all;
   }
 }
 </style>
