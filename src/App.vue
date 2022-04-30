@@ -6,7 +6,10 @@
     <aside class="app-sidebar" v-if="$route.meta.showAppSidebar">
       <app-site-map />
     </aside>
-    <main class="app-main" :class="{ 'white-background': whiteBackground }">
+    <main
+      class="app-main"
+      :class="{ 'white-background': $route.meta.whiteBackground }"
+    >
       <div class="app-header-wrapper" v-if="$route.meta.showAppHeader">
         <app-header />
       </div>

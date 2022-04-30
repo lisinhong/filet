@@ -49,6 +49,7 @@ const routes = [
     name: "Contact",
     meta: {
       showAppHeader: true,
+      whiteBackground: true,
     },
     component: () => import("@/views/AppContact.vue"),
   },
@@ -59,6 +60,7 @@ const routes = [
       showAppInfo: true,
       showAppHeader: true,
       showAppSidebar: true,
+      whiteBackground: true,
     },
     component: () => import("@/views/AppProfile.vue"),
   },
@@ -69,6 +71,7 @@ const routes = [
       showAppInfo: true,
       showAppHeader: true,
       showAppSidebar: true,
+      whiteBackground: true,
     },
     component: () => import("@/views/AppSettings.vue"),
   },
