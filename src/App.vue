@@ -18,6 +18,9 @@
       </div>
     </main>
     <app-modal />
+    <b-alert :variant="alert.variant" fade :show="alert.show">
+      {{ alert.text }}
+    </b-alert>
   </div>
 </template>
 
@@ -37,7 +40,7 @@ export default {
     AppModal,
   },
   computed: {
-    ...mapState(["showSidebar"]),
+    ...mapState(["showSidebar", "alert"]),
     whiteBackground() {
       return this.$route.name === "Profile" || this.$route.name === "Settings";
     },
@@ -126,6 +129,30 @@ export default {
     }
   }
 
+  .alert {
+    position: fixed;
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 16px;
+    min-width: 448px;
+    background: #ffe9ea;
+    border: 1px solid #ff4d4f;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: $brand-dark;
+    filter: drop-shadow(0px 0px 10px rgba($black, 0.2));
+    z-index: 2000;
+
+    &.alert-success {
+      background: #eaf8e3;
+      border: 1px solid #52c41a;
+    }
+  }
+
   @media screen and (max-device-width: 480px) {
     .app-main {
       max-width: 100%;
@@ -154,6 +181,14 @@ export default {
         margin-left: 0;
         left: 0;
       }
+    }
+
+    .alert {
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      transform: none;
+      min-width: 0;
     }
   }
 }

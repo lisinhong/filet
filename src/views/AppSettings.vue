@@ -84,13 +84,6 @@
         </div>
       </div>
     </div>
-    <b-alert
-      :variant="isSuccessAlert ? 'success' : null"
-      fade
-      :show="showAlert"
-    >
-      {{ alertText }}
-    </b-alert>
   </div>
 </template>
 
@@ -107,9 +100,6 @@ export default {
       newEmail: null,
       newMobile: null,
       isLoading: false,
-      showAlert: false,
-      alertText: null,
-      isSuccessAlert: false,
     };
   },
   computed: {
@@ -147,7 +137,7 @@ export default {
   },
   methods: {
     ...mapActions(["updateUserInfo", "changePassword", "getUserInfo"]),
-    ...mapMutations(["setUserInfo"]),
+    ...mapMutations(["setUserInfo", "showAlert", "hideAlert"]),
     async handleUpdateUserInfoClick() {
       this.isLoading = true;
 
@@ -161,32 +151,34 @@ export default {
         });
         this.newEmail = null;
         this.newMobile = null;
-        this.showAlert = true;
-        this.isSuccessAlert = true;
-        this.alertText = "Update successfully.";
+        this.showAlert({
+          text: "Update successfully.",
+          variant: "success",
+        });
 
         await this.getUserInfo({
           token: this.token,
         });
       } catch (error) {
-        this.showAlert = true;
-        this.alertText = error?.response?.data?.message;
+        this.showAlert({
+          text: error?.response?.data?.message,
+        });
       } finally {
         setTimeout(() => {
-          this.showAlert = false;
-          this.isSuccessAlert = false;
+          this.hideAlert();
         }, 3000);
         this.isLoading = false;
       }
     },
     async handleChangePasswordClick() {
       if (this.newPassword !== this.confirmNewPassword) {
-        this.showAlert = true;
-        this.alertText =
-          "Passwords are different. Please re-type your password.";
+        this.showAlert({
+          variant: "success",
+          text: "Passwords are different. Please re-type your password.",
+        });
 
         setTimeout(() => {
-          this.showAlert = false;
+          this.hideAlert();
         }, 3000);
 
         return;
@@ -203,18 +195,19 @@ export default {
         this.oldPassword = null;
         this.newPassword = null;
         this.confirmNewPassword = null;
-        this.showAlert = true;
-        this.isSuccessAlert = true;
-        this.alertText = "Update successfully.";
+        this.showAlert({
+          text: "Update successfully.",
+          variant: "success",
+        });
       } catch (error) {
-        this.showAlert = true;
-        this.alertText = error?.response?.data?.message;
+        this.showAlert({
+          text: error?.response?.data?.message,
+        });
       } finally {
-        setTimeout(() => {
-          this.showAlert = false;
-          this.isSuccessAlert = false;
-        }, 3000);
         this.isLoading = false;
+        setTimeout(() => {
+          this.hideAlert();
+        }, 3000);
       }
     },
   },

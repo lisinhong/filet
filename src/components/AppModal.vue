@@ -21,7 +21,7 @@
         <b-form-input
           id="amount"
           type="number"
-          v-model="amount"
+          v-model.number="amount"
           placeholder="0"
           :min="0"
           :state="inputState"
@@ -47,9 +47,6 @@
       </button>
       <button class="btn-cancel" @click="hideAppModal">Cancel</button>
     </div>
-    <b-alert fade :show="showAlert">
-      {{ alertText }}
-    </b-alert>
   </b-modal>
 </template>
 
@@ -67,8 +64,6 @@ export default {
       amount: null,
       inputState: null,
       isLoading: false,
-      showAlert: false,
-      alertText: null,
     };
   },
   computed: {
@@ -108,10 +103,26 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["hideAppModal"]),
-    ...mapActions(["apply", "deposit", "withdraw", "redeem"]),
+    ...mapMutations(["hideAppModal", "setUserAsset", "showAlert", "hideAlert"]),
+    ...mapActions(["apply", "deposit", "withdraw", "redeem", "getUserAsset"]),
     assignValue(value) {
       this.amount = value;
+    },
+    handleSuccess() {
+      this.isLoading = false;
+      this.hideAppModal();
+      this.showAlert({
+        variant: "success",
+        text: "Operate successfully.",
+      });
+
+      this.getUserAsset({
+        token: this.token,
+      }).then((response) => this.setUserAsset(response.data));
+
+      setTimeout(() => {
+        this.hideAlert();
+      }, 3000);
     },
     async handleConfirmClick() {
       this.isLoading = true;
@@ -119,6 +130,12 @@ export default {
       try {
         switch (this.modal.type) {
           case "apply":
+            await this.apply({
+              token: this.token,
+              productId: "0",
+              amount: this.amount,
+            });
+            this.handleSuccess();
             break;
           case "redeem":
             await this.redeem({
@@ -126,34 +143,34 @@ export default {
               productId: "0",
               isRedeem: true,
             });
-            this.hideAppModal();
+            this.handleSuccess();
             break;
           case "deposit":
             await this.deposit({
               token: this.token,
               amount: this.amount,
             });
-            this.hideAppModal();
+            this.handleSuccess();
             break;
           case "withdraw":
             await this.withdraw({
               token: this.token,
               amount: this.amount,
             });
-            this.hideAppModal();
+            this.handleSuccess();
             break;
           default:
             break;
         }
       } catch (error) {
-        this.showAlert = true;
-        this.alertText = error?.response?.data?.message;
+        this.isLoading = false;
+        this.showAlert({
+          text: error?.response?.data?.message,
+        });
 
         setTimeout(() => {
-          this.showAlert = false;
+          this.hideAlert();
         }, 3000);
-      } finally {
-        this.isLoading = false;
       }
     },
   },

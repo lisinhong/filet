@@ -129,14 +129,11 @@
         <a href="#">User Notice</a>
       </div>
     </div>
-    <b-alert fade :show="showAlert">
-      {{ alertText }}
-    </b-alert>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import IconPolygon from "@/components/icons/IconPolygon.vue";
 
 export default {
@@ -164,8 +161,6 @@ export default {
       password: null,
       confirmPassword: null,
       referrer: null,
-      showAlert: false,
-      alertText: null,
     };
   },
   computed: {
@@ -193,9 +188,9 @@ export default {
   },
   methods: {
     ...mapActions(["verifyEmail", "verifyOTP", "register"]),
+    ...mapMutations(["showAlert", "hideAlert"]),
     async handleVerifyEmail() {
       this.isLoading = true;
-      this.alertText = null;
       this.emailState = null;
 
       try {
@@ -212,7 +207,6 @@ export default {
     },
     async handleVerifyOtp() {
       this.isLoading = true;
-      this.alertText = null;
       this.otpState = null;
 
       try {
@@ -230,7 +224,6 @@ export default {
     },
     async handleRegister() {
       this.isLoading = true;
-      this.alertText = null;
       this.registerState = null;
 
       if (this.password !== this.confirmPassword) {
@@ -263,11 +256,12 @@ export default {
       this.$refs.otp[index].blur();
     },
     handleError(message) {
-      this.showAlert = true;
-      this.alertText = message;
+      this.showAlert({
+        text: message,
+      });
 
       setTimeout(() => {
-        this.showAlert = false;
+        this.hideAlert();
       }, 3000);
     },
   },

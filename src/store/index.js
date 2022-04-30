@@ -68,7 +68,16 @@ export default new Vuex.Store({
       mdd: null,
       startDate: null,
     },
-    modal: { show: false, type: null, max: null },
+    modal: {
+      show: false,
+      type: null,
+      max: null,
+    },
+    alert: {
+      show: false,
+      success: false,
+      text: null,
+    },
     tvl: {
       deposit: null,
       interest: null,
@@ -152,6 +161,20 @@ export default new Vuex.Store({
     },
     setFaq(state, data) {
       state.faq = data;
+    },
+    showAlert(state, data) {
+      state.alert = {
+        show: true,
+        variant: data.variant,
+        text: data.text,
+      };
+    },
+    hideAlert(state) {
+      state.alert = {
+        show: false,
+        variant: null,
+        text: null,
+      };
     },
   },
   actions: {
