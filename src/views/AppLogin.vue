@@ -70,7 +70,6 @@ export default {
       email: null,
       password: null,
       keepLogIn: true,
-      showLoginAlert: false,
       loginState: null,
       isLoading: false,
     };
@@ -82,7 +81,7 @@ export default {
   },
   methods: {
     ...mapActions(["login", "getUserInfo"]),
-    ...mapMutations(["setToken", "setUserInfo"]),
+    ...mapMutations(["setToken", "setUserInfo", "showAlert", "hideAlert"]),
     async handleLogin() {
       this.loginState = null;
       this.isLoading = true;
@@ -110,18 +109,17 @@ export default {
         this.setUserInfo(userInfoResponse.data);
         this.$router.replace("/");
       } catch (error) {
-        this.handleLoginError();
+        this.loginState = false;
+        this.showLoginAlert({
+          text: error?.response?.data?.message,
+        });
+
+        setTimeout(() => {
+          this.hideAlert();
+        }, 3000);
       } finally {
         this.isLoading = false;
       }
-    },
-    handleLoginError() {
-      this.loginState = false;
-      this.showLoginAlert = true;
-
-      setTimeout(() => {
-        this.showLoginAlert = false;
-      }, 3000);
     },
   },
 };
