@@ -153,9 +153,15 @@ export default {
 
       try {
         await this.updateUserInfo({
+          ...this.userInfo,
           email: this.newEmail,
           mobile: this.newMobile,
         });
+        this.newEmail = null;
+        this.newMobile = null;
+        this.showAlert = true;
+        this.isSuccessAlert = true;
+        this.alertText = "Update successfully.";
       } catch (error) {
         this.showAlert = true;
         this.alertText = error?.response?.data?.message;
@@ -193,7 +199,7 @@ export default {
         this.confirmNewPassword = null;
         this.showAlert = true;
         this.isSuccessAlert = true;
-        this.alertText = "Change password successfully.";
+        this.alertText = "Update successfully.";
       } catch (error) {
         this.showAlert = true;
         this.alertText = error?.response?.data?.message;
