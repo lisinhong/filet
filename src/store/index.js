@@ -27,6 +27,18 @@ export default new Vuex.Store({
       cash: null,
       interest: null,
     },
+    userWalletInfo: {
+      wallet: null,
+      amount: null,
+    },
+    userFixedInterestRate: {
+      id: null,
+      name: null,
+      rates: null,
+      interest: null,
+      remainDay: null,
+    },
+    userTransactionHistory: [],
     productList: [],
     product: {
       name: null,
@@ -39,16 +51,13 @@ export default new Vuex.Store({
       mdd: null,
       startDate: null,
     },
-    showModal: false,
-    modalTitle: null,
-    modalPlaceholder: null,
-    modalDescription: null,
-    modalMax: null,
+    modal: { show: false, type: null, max: null },
     tvl: {
       deposit: null,
       interest: null,
     },
     tvlHistory: [],
+    faq: [],
   },
   getters: {
     isLogin(state) {
@@ -75,23 +84,24 @@ export default new Vuex.Store({
       state.showSidebar = !state.showSidebar;
     },
     showAppModal(state, data) {
-      const { modalTitle, modalPlaceholder, modalMax } = data;
+      const { type, max } = data;
 
-      if (!modalTitle || !modalPlaceholder) {
-        console.error("missing data");
+      if (!type) {
         return;
       }
 
-      state.showModal = true;
-      state.modalTitle = modalTitle;
-      state.modalPlaceholder = modalPlaceholder;
-      state.modalMax = modalMax ? modalMax : null;
+      state.modal = {
+        show: true,
+        type,
+        max,
+      };
     },
     hideAppModal(state) {
-      state.showModal = false;
-      state.modalTitle = null;
-      state.modalPlaceholder = null;
-      state.modalMax = null;
+      state.modal = {
+        show: false,
+        type: null,
+        max: null,
+      };
     },
     setToken(state, token) {
       state.token = token;
@@ -101,6 +111,9 @@ export default new Vuex.Store({
     },
     setUserAsset(state, data) {
       state.userAsset = data;
+    },
+    setUserTransactionHistory(state, data) {
+      state.userTransactionHistory = data;
     },
     setTVL(state, data) {
       state.tvl = data;
@@ -113,6 +126,15 @@ export default new Vuex.Store({
     },
     setTVLHistory(state, data) {
       state.tvlHistory = data;
+    },
+    setUserWalletInfo(state, data) {
+      state.userWalletInfo = data;
+    },
+    setUserFixedInterestRate(state, data) {
+      state.userFixedInterestRate = data;
+    },
+    setFaq(state, data) {
+      state.faq = data;
     },
   },
   actions: {
@@ -137,6 +159,9 @@ export default new Vuex.Store({
     getUserAsset(context, data) {
       return $axios.post("user/asset", data);
     },
+    getUserTransactionHistory(context, data) {
+      return $axios.post("user/txnhistory", data);
+    },
     getTVL() {
       return $axios.post("tvl");
     },
@@ -150,22 +175,34 @@ export default new Vuex.Store({
       return $axios.post("product/detail", data);
     },
     apply(context, data) {
-      return $axios.post("apply", data);
+      return $axios.post("operation/apply", data);
     },
     deposit(context, data) {
-      return $axios.post("deposit", data);
+      return $axios.post("operation/deposit", data);
     },
     withdraw(context, data) {
-      return $axios.post("withdraw", data);
+      return $axios.post("operation/withdraw", data);
     },
     redeem(context, data) {
-      return $axios.post("redeem", data);
+      return $axios.post("operation/redeem", data);
     },
     contact(context, data) {
       return $axios.post("contact", data);
     },
-    recover(context, data) {
+    sendRecoverLink(context, data) {
       return $axios.post("recover", data);
+    },
+    getUserWalletInfo(context, data) {
+      return $axios.post("user/walletinfo", data);
+    },
+    getUserFixedInterestRate(context, data) {
+      return $axios.post("user/fixedinterest", data);
+    },
+    getFaq(context, data) {
+      return $axios.post("faq", data);
+    },
+    changePassword(context, data) {
+      return $axios.post("changepassword", data);
     },
   },
   modules: {},
