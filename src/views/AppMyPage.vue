@@ -8,6 +8,7 @@
           :chartData="doughnutChartData"
           :chartOptions="doughnutChartOptions"
           :is-empty="!hasAsset"
+          enableActions
         />
       </div>
     </div>
@@ -17,13 +18,13 @@
         Fixed Interest
       </p>
       <div class="content">
-        <product-info redeem />
+        <product-info :redeem="hasUserProductInfo" />
       </div>
     </div>
     <div class="app-card large">
       <p class="title">Transaction History</p>
       <div class="content">
-        <transaction-history :isEmpty="!transactionHistory" />
+        <transaction-history :isEmpty="isTransactionHistoryEmpty" />
       </div>
     </div>
   </div>
@@ -44,11 +45,11 @@ export default {
   },
   data() {
     return {
-      transactionHistory: true,
+      hasUserProductInfo: false,
     };
   },
   computed: {
-    ...mapState(["userAsset", "token"]),
+    ...mapState(["userAsset", "token", "userTransactionHistory"]),
     ...mapGetters(["isLogin"]),
     hasAsset() {
       return this.totalAsset > 0;
@@ -105,8 +106,15 @@ export default {
         },
       };
     },
+    isTransactionHistoryEmpty() {
+      return !this.userTransactionHistory.length;
+    },
   },
   created() {
+    this.getProduct({ id: "0" }).then((response) =>
+      this.setProduct(response.data)
+    );
+
     if (!this.isLogin) {
       return;
     }
@@ -115,10 +123,42 @@ export default {
     }).then((response) => {
       this.setUserAsset(response.data);
     });
+
+    this.getUserWalletInfo({
+      token: this.token,
+    }).then((response) => this.setUserWalletInfo(response.data));
+
+    this.getUserFixedInterestRate({
+      token: this.token,
+    })
+      .then((response) => {
+        this.setUserFixedInterestRate(response.data);
+        this.hasUserProductInfo = true;
+      })
+      .catch(() => {
+        this.hasUserProductInfo = false;
+      });
+
+    this.getUserTransactionHistory({
+      token: this.token,
+    }).then((response) => this.setUserTransactionHistory(response.data));
   },
   methods: {
-    ...mapMutations(["setUserAsset"]),
-    ...mapActions(["getUserAsset", "getUserTransactionHistory"]),
+    ...mapMutations([
+      "setUserAsset",
+      "setUserWalletInfo",
+      "setUserFixedInterestRate",
+      "setProduct",
+      "setUserTransactionHistory",
+    ]),
+    ...mapActions([
+      "getUserAsset",
+      "getUserTransactionHistory",
+      "getUserWalletInfo",
+      "getUserFixedInterestRate",
+      "getProduct",
+      "getUserTransactionHistory",
+    ]),
   },
 };
 </script>

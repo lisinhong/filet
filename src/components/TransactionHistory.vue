@@ -2,29 +2,16 @@
   <div class="transaction-history">
     <p v-if="isEmpty">No data</p>
     <ul v-else>
-      <li>
-        <span class="type">Variable Interest</span>
+      <li v-for="(transaction, index) in userTransactionHistory" :key="index">
+        <span class="type">{{ transaction.transactionType }}</span>
         <div class="record">
-          <span class="amount">Sent <em>350,000.00</em> USDT</span>
-          <span class="time">Thu, Mar 3, 2022, 22:03:20 AM</span>
-        </div>
-      </li>
-      <li>
-        <span class="type">Transfer</span>
-        <div class="record">
-          <span class="amount"
-            >Sent <em>7,312,341,814.33</em> USDT from 0xra1dfghgrxm2z</span
-          >
-          <span class="time">Thu, Mar 2, 2022, 01:03:20 AM</span>
-        </div>
-      </li>
-      <li>
-        <span class="type">Transfer</span>
-        <div class="record">
-          <span class="amount"
-            >Received <em>8,312,341,814.33</em> USDT from 0xra1dfghgrxm2z</span
-          >
-          <span class="time">Thu, Mar 1, 2022, 10:03:20 AM</span>
+          <span class="amount">
+            {{ transaction.side }} <em>{{ transaction.amount }}</em> USDT
+            <span v-if="transaction.from">from {{ transaction.from }}</span>
+          </span>
+          <span class="time">{{
+            new Date(transaction.time).toGMTString()
+          }}</span>
         </div>
       </li>
     </ul>
@@ -32,6 +19,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "TransactionHistory",
   props: {
@@ -39,6 +28,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  computed: {
+    ...mapState(["userTransactionHistory"]),
   },
 };
 </script>

@@ -28,7 +28,7 @@
           USDT
         </span>
       </b-form-group>
-      <b-form-group label-for="from" label="From">
+      <!-- <b-form-group label-for="from" label="From">
         <b-form-input
           id="from"
           type="text"
@@ -45,7 +45,7 @@
           placeholder="Wallet"
           :state="inputState"
         ></b-form-input>
-      </b-form-group>
+      </b-form-group> -->
     </div>
     <div class="footer">
       <button
@@ -57,6 +57,9 @@
       </button>
       <button class="btn-cancel" @click="hideAppModal">Cancel</button>
     </div>
+    <b-alert fade :show="showAlert">
+      {{ alertText }}
+    </b-alert>
   </b-modal>
 </template>
 
@@ -72,13 +75,16 @@ export default {
   data() {
     return {
       amount: null,
-      from: null,
-      to: null,
+      // from: null,
+      // to: null,
       inputState: null,
+      isLoading: false,
+      showAlert: false,
+      alertText: null,
     };
   },
   computed: {
-    ...mapState(["modal"]),
+    ...mapState(["modal", "token"]),
     title() {
       switch (this.modal.type) {
         case "apply":
@@ -99,37 +105,59 @@ export default {
     isConfirmDisabled() {
       if (this.modal.max > 0) {
         return (
-          this.amount <= 0 ||
-          this.amount > this.modal.max ||
-          !this.from ||
-          !this.to
+          this.amount <= 0 || this.amount > this.modal.max || this.isLoading
         );
       }
-      return this.amount <= 0 || !this.from || !this.to;
+      return this.amount <= 0 || this.isLoading;
     },
   },
   methods: {
     ...mapMutations(["hideAppModal"]),
-    ...mapActions(["apply"]),
+    ...mapActions(["apply", "deposit", "withdraw", "redeem"]),
     assignValue(value) {
       this.amount = value;
     },
     async handleConfirmClick() {
+      this.isLoading = true;
+
       try {
         switch (this.modal.type) {
           case "apply":
             break;
           case "redeem":
+            await this.redeem({
+              token: this.token,
+              productId: "0",
+              isRedeem: true,
+            });
+            this.hideAppModal();
             break;
           case "deposit":
+            await this.deposit({
+              token: this.token,
+              amount: this.amount,
+            });
+            this.hideAppModal();
             break;
           case "withdraw":
+            await this.withdraw({
+              token: this.token,
+              amount: this.amount,
+            });
+            this.hideAppModal();
             break;
           default:
             break;
         }
       } catch (error) {
-        console.error(error);
+        this.showAlert = true;
+        this.alertText = error?.response?.data?.message;
+
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
+      } finally {
+        this.isLoading = false;
       }
     },
   },

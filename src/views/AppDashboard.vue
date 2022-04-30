@@ -45,7 +45,7 @@ export default {
     LineChart,
   },
   computed: {
-    ...mapState(["tvl", "product", "tvlHistory"]),
+    ...mapState(["tvl", "product", "tvlHistory", "token"]),
     ...mapGetters(["totalAsset"]),
     doughnutChartData() {
       return {
@@ -74,10 +74,10 @@ export default {
       };
     },
     lineChartLabelList() {
-      return this.tvlHistory.map((tvl) => tvl.date);
+      return this.tvlHistory.map((tvl) => tvl.date).reverse();
     },
     lineChartDataList() {
-      return this.tvlHistory.map((tvl) => tvl.price);
+      return this.tvlHistory.map((tvl) => tvl.price).reverse();
     },
     lineChartData() {
       return {

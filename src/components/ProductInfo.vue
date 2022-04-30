@@ -64,14 +64,14 @@ export default {
     },
   },
   computed: {
-    ...mapState(["product", "userAsset"]),
+    ...mapState(["product", "userAsset", "userFixedInterestRate"]),
   },
   methods: {
     ...mapMutations(["showAppModal"]),
     handleRedeemClick() {
       this.showAppModal({
         type: "redeem",
-        max: 1000,
+        max: this.userFixedInterestRate.interest,
       });
     },
     handleApplyClick() {

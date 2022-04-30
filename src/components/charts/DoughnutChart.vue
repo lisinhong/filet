@@ -9,7 +9,7 @@
     />
     <div>
       <div class="legend-container"></div>
-      <div class="button-list">
+      <div class="button-list" v-if="enableActions">
         <button
           class="btn-withdraw"
           :disabled="isEmpty"
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapState } from "vuex";
 import DoughnutChartBase from "@/components/charts/DoughnutChartBase.vue";
 
 const getOrCreateLegendList = () => {
@@ -73,6 +73,10 @@ export default {
       default: false,
     },
     isEmpty: {
+      type: Boolean,
+      default: false,
+    },
+    enableActions: {
       type: Boolean,
       default: false,
     },
@@ -123,6 +127,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["userAsset"]),
     ...mapGetters(["isLogin"]),
   },
   methods: {
@@ -130,7 +135,7 @@ export default {
     handleWithdrawClick() {
       this.showAppModal({
         type: "withdraw",
-        max: 1000,
+        max: this.userAsset.cash,
       });
     },
     handleDepositClick() {
