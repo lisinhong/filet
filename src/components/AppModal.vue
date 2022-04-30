@@ -13,7 +13,11 @@
       <i @click="hideAppModal"><icon-close /></i>
     </div>
     <div class="content">
-      <b-form-group label-for="amount" label="Amount">
+      <b-form-group
+        v-if="modal.type !== 'redeem'"
+        label-for="amount"
+        label="Amount"
+      >
         <b-form-input
           id="amount"
           type="number"
@@ -28,24 +32,10 @@
           USDT
         </span>
       </b-form-group>
-      <!-- <b-form-group label-for="from" label="From">
-        <b-form-input
-          id="from"
-          type="text"
-          v-model="from"
-          placeholder="Wallet"
-          :state="inputState"
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group label-for="to" label="To">
-        <b-form-input
-          id="to"
-          type="text"
-          v-model="to"
-          placeholder="Wallet"
-          :state="inputState"
-        ></b-form-input>
-      </b-form-group> -->
+      <p v-else>
+        It will redeem all the money and transfer to your account next trading
+        day. Are you firm on this?
+      </p>
     </div>
     <div class="footer">
       <button
@@ -75,8 +65,6 @@ export default {
   data() {
     return {
       amount: null,
-      // from: null,
-      // to: null,
       inputState: null,
       isLoading: false,
       showAlert: false,
@@ -103,12 +91,20 @@ export default {
       return this.modal.max >= 0;
     },
     isConfirmDisabled() {
+      if (this.modal.type === "redeem") {
+        return this.isLoading;
+      }
       if (this.modal.max > 0) {
         return (
           this.amount <= 0 || this.amount > this.modal.max || this.isLoading
         );
       }
       return this.amount <= 0 || this.isLoading;
+    },
+  },
+  watch: {
+    "modal.show"() {
+      this.amount = null;
     },
   },
   methods: {
@@ -233,6 +229,14 @@ export default {
           background: none;
         }
       }
+
+      p {
+        color: $brand-dark;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.02em;
+      }
     }
 
     .form-group {
@@ -260,7 +264,7 @@ export default {
     }
 
     .footer {
-      margin-top: 24px;
+      margin-top: auto;
       display: flex;
       flex-direction: row-reverse;
 
