@@ -173,6 +173,9 @@ export default new Vuex.Store({
     getUserInfo(context, data) {
       return $axios.post("user/info", data);
     },
+    updateUserInfo(context, data) {
+      return $axios.post("user/update", data);
+    },
     getUserAsset(context, data) {
       return $axios.post("user/asset", data);
     },

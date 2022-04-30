@@ -48,9 +48,7 @@ const routes = [
     path: "/contact",
     name: "Contact",
     meta: {
-      showAppInfo: true,
       showAppHeader: true,
-      showAppSidebar: true,
     },
     component: () => import("@/views/AppContact.vue"),
   },
