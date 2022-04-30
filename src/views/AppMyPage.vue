@@ -2,12 +2,12 @@
   <div class="app-my-page app-card-list">
     <div class="app-card">
       <p class="title">Total Asset</p>
-      <p class="sub-title">17,915,056,819 USDT</p>
+      <p class="sub-title">{{ totalAsset }} USDT</p>
       <div class="chart">
         <doughnut-chart
           :chartData="doughnutChartData"
           :chartOptions="doughnutChartOptions"
-          :is-empty="!totalAsset"
+          :is-empty="!hasAsset"
         />
       </div>
     </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 import ProductInfo from "@/components/ProductInfo.vue";
 import TransactionHistory from "@/components/TransactionHistory.vue";
@@ -44,20 +44,26 @@ export default {
   },
   data() {
     return {
-      totalAsset: [65000, 36000],
       transactionHistory: true,
     };
   },
   computed: {
-    ...mapState(["showModal"]),
+    ...mapState(["userAsset", "token"]),
+    ...mapGetters(["isLogin"]),
+    hasAsset() {
+      return this.totalAsset > 0;
+    },
+    totalAsset() {
+      return Number(this.userAsset.cash) + Number(this.userAsset.interest);
+    },
     doughnutChartData() {
       let labels;
       let data;
       let backgroundColor;
 
-      if (this.totalAsset) {
+      if (this.hasAsset) {
         labels = ["Cash Back", "Fixed Interest"];
-        data = this.totalAsset;
+        data = [this.userAsset.cash, this.userAsset.interest];
         backgroundColor = ["#A81B15", "#EDC612"];
       } else {
         labels = ["Cash Back", "Fixed Interest", ""];
@@ -80,7 +86,7 @@ export default {
     doughnutChartOptions() {
       let fontColor;
 
-      if (this.totalAsset) {
+      if (this.hasAsset) {
         fontColor = "#292B2B";
       } else {
         fontColor = "rgba(41, 43, 43, 0.32)";
@@ -100,8 +106,19 @@ export default {
       };
     },
   },
+  created() {
+    if (!this.isLogin) {
+      return;
+    }
+    this.getUserAsset({
+      token: this.token,
+    }).then((response) => {
+      this.setUserAsset(response.data);
+    });
+  },
   methods: {
-    ...mapMutations(["showAppModal"]),
+    ...mapMutations(["setUserAsset"]),
+    ...mapActions(["getUserAsset", "getUserTransactionHistory"]),
   },
 };
 </script>

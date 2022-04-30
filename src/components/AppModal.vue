@@ -1,6 +1,6 @@
 <template>
   <b-modal
-    :visible="showModal"
+    :visible="modal.show"
     body-class="app-modal"
     hide-header
     hide-header-close
@@ -9,35 +9,59 @@
     no-close-on-esc
   >
     <div class="header">
-      <span class="title">{{ modalTitle }}</span>
+      <span class="title">{{ title }}</span>
       <i @click="hideAppModal"><icon-close /></i>
     </div>
     <div class="content">
-      <b-form-group label-for="modal-input" class="mb-0" label="Amount">
+      <b-form-group label-for="amount" label="Amount">
         <b-form-input
-          id="modal-input"
+          id="amount"
           type="number"
-          v-model="value"
-          :placeholder="modalPlaceholder"
+          v-model="amount"
+          placeholder="0"
           :min="0"
           :state="inputState"
         ></b-form-input>
         <span class="description" v-if="showDescription">
           Max:
-          <em @click="assignValue(modalMax)">{{ modalMax }}</em>
-          USDT</span
-        >
+          <em @click="assignValue(modal.max)">{{ modal.max }}</em>
+          USDT
+        </span>
+      </b-form-group>
+      <b-form-group label-for="from" label="From">
+        <b-form-input
+          id="from"
+          type="text"
+          v-model="from"
+          placeholder="Wallet"
+          :state="inputState"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group label-for="to" label="To">
+        <b-form-input
+          id="to"
+          type="text"
+          v-model="to"
+          placeholder="Wallet"
+          :state="inputState"
+        ></b-form-input>
       </b-form-group>
     </div>
     <div class="footer">
-      <button class="btn-confirm" :disabled="isConfirmDisabled">Confirm</button>
+      <button
+        class="btn-confirm"
+        :disabled="isConfirmDisabled"
+        @click="handleConfirmClick"
+      >
+        Confirm
+      </button>
       <button class="btn-cancel" @click="hideAppModal">Cancel</button>
     </div>
   </b-modal>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import IconClose from "@/components/icons/IconClose.vue";
 
 export default {
@@ -47,31 +71,66 @@ export default {
   },
   data() {
     return {
-      value: null,
+      amount: null,
+      from: null,
+      to: null,
+      inputState: null,
     };
   },
   computed: {
-    ...mapState(["showModal", "modalTitle", "modalPlaceholder", "modalMax"]),
+    ...mapState(["modal"]),
+    title() {
+      switch (this.modal.type) {
+        case "apply":
+          return "Apply";
+        case "redeem":
+          return "Early Redemption";
+        case "deposit":
+          return "Deposit";
+        case "withdraw":
+          return "Withdraw";
+        default:
+          return "";
+      }
+    },
     showDescription() {
-      return this.modalMax > 0;
+      return this.modal.max >= 0;
     },
     isConfirmDisabled() {
-      if (this.modalMax > 0) {
-        return this.value <= 0 || this.value > this.modalMax;
+      if (this.modal.max > 0) {
+        return (
+          this.amount <= 0 ||
+          this.amount > this.modal.max ||
+          !this.from ||
+          !this.to
+        );
       }
-      return this.value <= 0;
-    },
-    inputState() {
-      if ((this.modalMax > 0 && this.value > this.modalMax) || this.value < 0) {
-        return false;
-      }
-      return null;
+      return this.amount <= 0 || !this.from || !this.to;
     },
   },
   methods: {
     ...mapMutations(["hideAppModal"]),
+    ...mapActions(["apply"]),
     assignValue(value) {
-      this.value = value;
+      this.amount = value;
+    },
+    async handleConfirmClick() {
+      try {
+        switch (this.modal.type) {
+          case "apply":
+            break;
+          case "redeem":
+            break;
+          case "deposit":
+            break;
+          case "withdraw":
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
@@ -148,6 +207,12 @@ export default {
       }
     }
 
+    .form-group {
+      & + .form-group {
+        margin-top: 8px;
+      }
+    }
+
     .description {
       display: inline-block;
       width: 100%;
@@ -167,7 +232,7 @@ export default {
     }
 
     .footer {
-      margin-top: auto;
+      margin-top: 24px;
       display: flex;
       flex-direction: row-reverse;
 

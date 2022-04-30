@@ -19,7 +19,7 @@
         </button>
         <button
           class="btn-deposit"
-          :disabled="isEmpty"
+          :disabled="!isLogin"
           @click="handleDepositClick"
         >
           Deposit
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 import DoughnutChartBase from "@/components/charts/DoughnutChartBase.vue";
 
 const getOrCreateLegendList = () => {
@@ -122,19 +122,20 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(["isLogin"]),
+  },
   methods: {
     ...mapMutations(["showAppModal"]),
     handleWithdrawClick() {
       this.showAppModal({
-        modalTitle: "Withdraw",
-        modalPlaceholder: "0",
-        modalMax: 1000,
+        type: "withdraw",
+        max: 1000,
       });
     },
     handleDepositClick() {
       this.showAppModal({
-        modalTitle: "Deposit",
-        modalPlaceholder: "0",
+        type: "deposit",
       });
     },
   },

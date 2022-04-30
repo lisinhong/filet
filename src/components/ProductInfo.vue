@@ -25,7 +25,7 @@
         </div>
       </template>
       <template v-else>
-        <div class="rate">8%</div>
+        <div class="rate">{{ product.rates }}%</div>
         <div class="description">
           <p>
             Period: <em>{{ product.period }}</em> Days
@@ -64,22 +64,20 @@ export default {
     },
   },
   computed: {
-    ...mapState(["product"]),
+    ...mapState(["product", "userAsset"]),
   },
   methods: {
     ...mapMutations(["showAppModal"]),
     handleRedeemClick() {
       this.showAppModal({
-        modalTitle: "Early Redemption",
-        modalPlaceholder: "0",
-        modalMax: 1000,
+        type: "redeem",
+        max: 1000,
       });
     },
     handleApplyClick() {
       this.showAppModal({
-        modalTitle: "Apply",
-        modalPlaceholder: "0",
-        modalMax: 65000,
+        type: "apply",
+        max: this.userAsset.cash,
       });
     },
   },
