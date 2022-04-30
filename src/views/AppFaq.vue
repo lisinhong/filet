@@ -1,45 +1,18 @@
 <template>
   <div class="app-faq">
     <ul>
-      <li v-b-toggle.collapse-1>
+      <li
+        v-b-toggle="index.toString()"
+        v-for="(item, index) in faq"
+        :key="index"
+      >
         <div class="faq-title">
-          <span>Q1. Title goes here</span>
+          <span>{{ item.question }}</span>
           <icon-arrow-down />
         </div>
-        <b-collapse id="collapse-1">
+        <b-collapse :id="index.toString()">
           <div class="faq-description">
-            Description goes here.Description goes here.Description goes
-            here.Description goes here.Description goes here.Description goes
-            Description goes here.Description goes here.Description goes
-            here.Description goes here.Description goes here.Description goes
-          </div>
-        </b-collapse>
-      </li>
-      <li v-b-toggle.collapse-2>
-        <div class="faq-title">
-          <span>Q2. Title goes here</span>
-          <icon-arrow-down />
-        </div>
-        <b-collapse id="collapse-2">
-          <div class="faq-description">
-            Description goes here.Description goes here.Description goes
-            here.Description goes here.Description goes here.Description goes
-            Description goes here.Description goes here.Description goes
-            here.Description goes here.Description goes here.Description goes
-          </div>
-        </b-collapse>
-      </li>
-      <li v-b-toggle.collapse-3>
-        <div class="faq-title">
-          <span>Q3. Title goes here</span>
-          <icon-arrow-down />
-        </div>
-        <b-collapse id="collapse-3">
-          <div class="faq-description">
-            Description goes here.Description goes here.Description goes
-            here.Description goes here.Description goes here.Description goes
-            Description goes here.Description goes here.Description goes
-            here.Description goes here.Description goes here.Description goes
+            {{ item.answer }}
           </div>
         </b-collapse>
       </li>
@@ -48,12 +21,23 @@
 </template>
 
 <script>
+import { mapActions, mapState, mapMutations } from "vuex";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 
 export default {
   name: "AppFaq",
   components: {
     IconArrowDown,
+  },
+  computed: {
+    ...mapState(["faq"]),
+  },
+  created() {
+    this.getFaq().then((response) => this.setFaq(response.data));
+  },
+  methods: {
+    ...mapActions(["getFaq"]),
+    ...mapMutations(["setFaq"]),
   },
 };
 </script>
