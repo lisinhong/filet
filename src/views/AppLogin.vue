@@ -69,7 +69,7 @@ export default {
     return {
       email: null,
       password: null,
-      keepLogIn: false,
+      keepLogIn: true,
       showLoginAlert: false,
       loginState: null,
       isLoading: false,
@@ -99,6 +99,8 @@ export default {
 
         if (this.keepLogIn) {
           this.$cookies.set("token", token);
+        } else {
+          this.$cookies.remove("token");
         }
 
         const userInfoResponse = await this.getUserInfo({
