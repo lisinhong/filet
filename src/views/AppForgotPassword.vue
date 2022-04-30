@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import IconPolygon from "@/components/icons/IconPolygon.vue";
 
 export default {
@@ -54,18 +54,29 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["recover"]),
+    ...mapActions(["sendRecoverLink"]),
+    ...mapMutations(["showAlert", "hideAlert"]),
     async handleSend() {
       this.isLoading = true;
 
       try {
-        await this.recover({
+        await this.sendRecoverLink({
           email: this.email,
         });
+
+        this.showAlert({
+          variant: "success",
+          text: "Email has been sent.",
+        });
       } catch (error) {
-        console.error(error);
+        this.showAlert({
+          text: error?.response?.data?.message,
+        });
       } finally {
         this.isLoading = false;
+        setTimeout(() => {
+          this.hideAlert();
+        }, 3000);
       }
     },
   },
@@ -82,6 +93,7 @@ export default {
 
   button {
     margin-top: auto;
+    margin-bottom: 0;
   }
 
   .note {
