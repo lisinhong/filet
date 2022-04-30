@@ -153,15 +153,21 @@ export default {
 
       try {
         await this.updateUserInfo({
-          ...this.userInfo,
+          token: this.token,
           email: this.newEmail,
           mobile: this.newMobile,
+          firstName: this.userInfo.firstName,
+          lastName: this.userInfo.lastName,
         });
         this.newEmail = null;
         this.newMobile = null;
         this.showAlert = true;
         this.isSuccessAlert = true;
         this.alertText = "Update successfully.";
+
+        await this.getUserInfo({
+          token: this.token,
+        });
       } catch (error) {
         this.showAlert = true;
         this.alertText = error?.response?.data?.message;
