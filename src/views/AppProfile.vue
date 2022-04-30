@@ -7,14 +7,14 @@
         <b-form-group label-for="first-name" label="First name">
           <b-form-input
             id="first-name"
-            :value="firstName"
+            :value="userInfo.firstName"
             readonly
           ></b-form-input>
         </b-form-group>
         <b-form-group label-for="last-name" label="Last name">
           <b-form-input
             id="last-name"
-            :value="lastName"
+            :value="userInfo.lastName"
             readonly
           ></b-form-input>
         </b-form-group>
@@ -29,7 +29,7 @@ import { mapState, mapGetters } from "vuex";
 export default {
   name: "AppProfile",
   computed: {
-    ...mapState(["firstName", "lastName"]),
+    ...mapState(["userInfo"]),
     ...mapGetters(["userName"]),
   },
 };
