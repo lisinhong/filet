@@ -6,14 +6,14 @@
         <b-form-group label-for="first-name" label="First name">
           <b-form-input
             id="first-name"
-            :value="firstName"
+            :value="userInfo.firstName"
             readonly
           ></b-form-input>
         </b-form-group>
         <b-form-group label-for="last-name" label="Last name">
           <b-form-input
             id="last-name"
-            :value="lastName"
+            :value="userInfo.lastName"
             readonly
           ></b-form-input>
         </b-form-group>
@@ -21,7 +21,7 @@
           <b-form-input
             id="email"
             type="email"
-            v-model="email"
+            v-model="newEmail"
             placeholder="example@example.com"
           ></b-form-input>
         </b-form-group>
@@ -29,12 +29,17 @@
           <b-form-input
             id="phone-number"
             type="tel"
-            v-model="phoneNumber"
+            v-model="newMobile"
             placeholder="+1 123456789"
           ></b-form-input>
         </b-form-group>
         <div class="button-container">
-          <button :disabled="isAccountInfoDisabled">Update</button>
+          <button
+            :disabled="isUpdateUserInfoDisabled"
+            @click="handleUpdateUserInfoClick"
+          >
+            Update
+          </button>
         </div>
       </div>
     </div>
@@ -45,7 +50,7 @@
           <b-form-input
             id="old-password"
             type="password"
-            :value="oldPassword"
+            v-model="oldPassword"
             placeholder="Your answer"
           ></b-form-input>
         </b-form-group>
@@ -53,7 +58,7 @@
           <b-form-input
             id="new-password"
             type="password"
-            :value="newPassword"
+            v-model="newPassword"
             placeholder="Your answer"
           ></b-form-input>
         </b-form-group>
@@ -65,40 +70,140 @@
           <b-form-input
             id="confirm-new-password"
             type="password"
-            :value="confirmNewPassword"
+            v-model="confirmNewPassword"
             placeholder="Your answer"
           ></b-form-input>
         </b-form-group>
         <div class="button-container">
-          <button :disabled="isChangePasswordDisabled">Update</button>
+          <button
+            :disabled="isChangePasswordDisabled"
+            @click="handleChangePasswordClick"
+          >
+            Update
+          </button>
         </div>
       </div>
     </div>
+    <b-alert
+      :variant="isSuccessAlert ? 'success' : null"
+      fade
+      :show="showAlert"
+    >
+      {{ alertText }}
+    </b-alert>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "AppSettings",
   data() {
     return {
-      email: null,
-      phoneNumber: null,
       oldPassword: null,
       newPassword: null,
       confirmNewPassword: null,
+      newEmail: null,
+      newMobile: null,
+      isLoading: false,
+      showAlert: false,
+      alertText: null,
+      isSuccessAlert: false,
     };
   },
   computed: {
-    ...mapState(["firstName", "lastName"]),
+    ...mapState(["userInfo", "token"]),
     ...mapGetters(["userName"]),
-    isAccountInfoDisabled() {
-      return !this.email && !this.phoneNumber;
+    isUpdateUserInfoDisabled() {
+      return (
+        (this.newEmail === this.userInfo.email &&
+          this.newMobile === this.userInfo.mobile) ||
+        this.isLoading
+      );
     },
     isChangePasswordDisabled() {
-      return !this.oldPassword && !this.newPassword && !this.confirmNewPassword;
+      return (
+        !this.oldPassword ||
+        !this.newPassword ||
+        !this.confirmNewPassword ||
+        this.isLoading
+      );
+    },
+  },
+  watch: {
+    "userInfo.email": {
+      handler(email) {
+        this.newEmail = email;
+      },
+      immediate: true,
+    },
+    "userInfo.mobile": {
+      handler(mobile) {
+        this.newMobile = mobile;
+      },
+      immediate: true,
+    },
+  },
+  methods: {
+    ...mapActions(["updateUserInfo", "changePassword", "getUserInfo"]),
+    ...mapMutations(["setUserInfo"]),
+    async handleUpdateUserInfoClick() {
+      this.isLoading = true;
+
+      try {
+        await this.updateUserInfo({
+          email: this.newEmail,
+          mobile: this.newMobile,
+        });
+      } catch (error) {
+        this.showAlert = true;
+        this.alertText = error?.response?.data?.message;
+      } finally {
+        setTimeout(() => {
+          this.showAlert = false;
+          this.isSuccessAlert = false;
+        }, 3000);
+        this.isLoading = false;
+      }
+    },
+    async handleChangePasswordClick() {
+      if (this.newPassword !== this.confirmNewPassword) {
+        this.showAlert = true;
+        this.alertText =
+          "Passwords are different. Please re-type your password.";
+
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
+
+        return;
+      }
+
+      this.isLoading = true;
+
+      try {
+        await this.changePassword({
+          token: this.token,
+          oldPassword: this.oldPassword,
+          newPassword: this.newPassword,
+        });
+        this.oldPassword = null;
+        this.newPassword = null;
+        this.confirmNewPassword = null;
+        this.showAlert = true;
+        this.isSuccessAlert = true;
+        this.alertText = "Change password successfully.";
+      } catch (error) {
+        this.showAlert = true;
+        this.alertText = error?.response?.data?.message;
+      } finally {
+        setTimeout(() => {
+          this.showAlert = false;
+          this.isSuccessAlert = false;
+        }, 3000);
+        this.isLoading = false;
+      }
     },
   },
 };

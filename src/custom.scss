@@ -304,6 +304,11 @@ body {
   letter-spacing: 0.02em;
   color: $brand-dark;
   filter: drop-shadow(0px 0px 10px rgba($black, 0.2));
+
+  &.alert-success {
+    background: #eaf8e3;
+    border: 1px solid #52c41a;
+  }
 }
 
 @media screen and (max-device-width: 480px) {
