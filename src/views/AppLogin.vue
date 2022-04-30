@@ -50,9 +50,6 @@
         <a href="#">User Notice</a>
       </div>
     </div>
-    <b-alert fade :show="showLoginAlert">
-      Opps! Email does not exist or password is invalid
-    </b-alert>
   </div>
 </template>
 
@@ -110,7 +107,7 @@ export default {
         this.$router.replace("/");
       } catch (error) {
         this.loginState = false;
-        this.showLoginAlert({
+        this.showAlert({
           text: error?.response?.data?.message,
         });
 
