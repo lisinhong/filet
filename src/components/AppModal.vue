@@ -106,7 +106,7 @@ export default {
     ...mapMutations(["hideAppModal", "setUserAsset", "showAlert", "hideAlert"]),
     ...mapActions(["apply", "deposit", "withdraw", "redeem", "getUserAsset"]),
     assignValue(value) {
-      this.amount = value;
+      this.amount = Number(value);
     },
     handleSuccess() {
       this.isLoading = false;
