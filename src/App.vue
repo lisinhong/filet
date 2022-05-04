@@ -44,9 +44,6 @@ export default {
   },
   computed: {
     ...mapState(["showSidebar", "alert"]),
-    whiteBackground() {
-      return this.$route.name === "Profile" || this.$route.name === "Settings";
-    },
     isMobile() {
       return document.documentElement.clientWidth < 481;
     },

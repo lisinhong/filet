@@ -48,12 +48,6 @@
             <span>{{ userName }}</span>
           </router-link>
         </li>
-        <li class="link-item">
-          <router-link to="settings" exact-active-class="active">
-            <icon-manage-accounts />
-            <span>Settings</span>
-          </router-link>
-        </li>
         <li class="link-item" @click="handleLogout">
           <a>
             <icon-logout />
@@ -76,7 +70,6 @@ import IconContact from "@/components/icons/IconContact.vue";
 import IconClose from "@/components/icons/IconClose.vue";
 import IconAccountCircle from "@/components/icons/IconAccountCircle.vue";
 import IconLogout from "@/components/icons/IconLogout.vue";
-import IconManageAccounts from "@/components/icons/IconManageAccounts.vue";
 
 export default {
   name: "AppSideBar",
@@ -90,7 +83,6 @@ export default {
     IconClose,
     IconAccountCircle,
     IconLogout,
-    IconManageAccounts,
   },
   computed: {
     ...mapState(["token", "showSidebar"]),

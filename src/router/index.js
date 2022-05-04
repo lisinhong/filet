@@ -66,17 +66,6 @@ const routes = [
     component: () => import("@/views/AppProfile.vue"),
   },
   {
-    path: "/settings",
-    name: "Settings",
-    meta: {
-      showAppInfo: true,
-      showAppHeader: true,
-      showAppSidebar: true,
-      whiteBackground: true,
-    },
-    component: () => import("@/views/AppSettings.vue"),
-  },
-  {
     path: "/login",
     name: "Login",
     component: () => import("@/views/AppLogin.vue"),

@@ -16,13 +16,6 @@
         </router-link>
       </b-dropdown-item>
       <b-dropdown-divider />
-      <b-dropdown-item>
-        <router-link to="settings">
-          <icon-manage-accounts fill="#888888" />
-          <span>Settings</span>
-        </router-link>
-      </b-dropdown-item>
-      <b-dropdown-divider />
       <b-dropdown-item @click="handleLogout">
         <a href="#">
           <icon-logout fill="#888888" />
@@ -44,7 +37,6 @@ import { mapMutations, mapGetters, mapActions, mapState } from "vuex";
 import IconMenuOpen from "@/components/icons/IconMenuOpen.vue";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
 import IconAccountCircle from "@/components/icons/IconAccountCircle.vue";
-import IconManageAccounts from "@/components/icons/IconManageAccounts.vue";
 import IconLogout from "@/components/icons/IconLogout.vue";
 
 export default {
@@ -53,7 +45,6 @@ export default {
     IconMenuOpen,
     IconArrowDown,
     IconAccountCircle,
-    IconManageAccounts,
     IconLogout,
   },
   computed: {
