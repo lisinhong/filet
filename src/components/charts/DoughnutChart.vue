@@ -255,7 +255,7 @@ export default {
     }
 
     .button-list {
-      display: none;
+      margin: 30px 0 0;
     }
   }
 }
