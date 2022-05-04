@@ -45,7 +45,7 @@
         <li class="link-item">
           <router-link to="profile" exact-active-class="active">
             <icon-account-circle />
-            <span>{{ userName }}</span>
+            <span>{{ userName || "Profile" }}</span>
           </router-link>
         </li>
         <li class="link-item" @click="handleLogout">

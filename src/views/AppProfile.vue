@@ -136,6 +136,9 @@ export default {
     },
   },
   async created() {
+    if (!this.token) {
+      return;
+    }
     const userInfoResponse = await this.getUserInfo({
       token: this.token,
     });
