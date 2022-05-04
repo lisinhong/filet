@@ -124,6 +124,7 @@ export default {
   watch: {
     "userInfo.email": {
       handler(email) {
+        console.log(email);
         this.newEmail = email;
       },
       immediate: true,
@@ -134,6 +135,13 @@ export default {
       },
       immediate: true,
     },
+  },
+  async created() {
+    const userInfoResponse = await this.getUserInfo({
+      token: this.token,
+    });
+
+    this.setUserInfo(userInfoResponse.data);
   },
   methods: {
     ...mapActions(["updateUserInfo", "changePassword", "getUserInfo"]),
@@ -149,16 +157,17 @@ export default {
           firstName: this.userInfo.firstName,
           lastName: this.userInfo.lastName,
         });
-        this.newEmail = null;
-        this.newMobile = null;
+
         this.showAlert({
           text: "Update successfully.",
           variant: "success",
         });
 
-        await this.getUserInfo({
+        const userInfoResponse = await this.getUserInfo({
           token: this.token,
         });
+
+        this.setUserInfo(userInfoResponse.data);
       } catch (error) {
         this.showAlert({
           text: error?.response?.data?.message,
