@@ -240,7 +240,7 @@ export default {
           lastName: this.lastName,
           referralFrom: this.referrer,
         });
-        this.$router.replace("/");
+        this.$router.replace("login");
       } catch (error) {
         this.registerState = false;
         this.handleError(error?.response?.data?.message);
