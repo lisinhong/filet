@@ -1,6 +1,6 @@
 <template>
   <div class="app-contact">
-    <div class="contact-header">
+    <!-- <div class="contact-header">
       <div class="text">
         We connect women founders and mentors around the world. Let us help each
         other succeed!
@@ -12,7 +12,7 @@
           :srcset="`${require('@/assets/contact.jpg')} 1x, ${require('@/assets/contact@2x.jpg')} 2x`"
         />
       </div>
-    </div>
+    </div> -->
     <div class="contact-form">
       <div class="contact-title">CONTACT US</div>
       <div class="contact-description">
@@ -52,19 +52,19 @@
         SEND
       </button>
     </div>
-    <div class="contact-information">
+    <!-- <div class="contact-information">
       <div class="contact-title">WORKING HOURS</div>
       <div class="contact-description">9 AM - 5 PM, Mon to Fri</div>
       <div class="contact-title">CONTACT</div>
       <div class="contact-description">contact@business.com</div>
       <div class="contact-title">FIND US ON LINKEDIN</div>
       <div class="contact-title">FIND US ON FACEBOOK</div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   name: "AppContact",
@@ -77,13 +77,23 @@ export default {
     };
   },
   computed: {
+    ...mapState(["userInfo", "token"]),
     isContactDisabled() {
       return !this.name || !this.email || !this.message || this.isLoading;
     },
   },
+  async created() {
+    const userInfoResponse = await this.getUserInfo({
+      token: this.token,
+    });
+
+    this.setUserInfo(userInfoResponse.data);
+    this.name = this.userInfo.firstName;
+    this.email = this.userInfo.email;
+  },
   methods: {
-    ...mapActions(["contact"]),
-    ...mapMutations(["showAlert", "hideAlert"]),
+    ...mapActions(["contact", "getUserInfo"]),
+    ...mapMutations(["showAlert", "hideAlert", "setUserInfo"]),
     async handleContactClick() {
       this.isLoading = true;
 
@@ -154,8 +164,9 @@ export default {
   }
 
   .contact-form {
-    flex: 0 0 calc(50% - 56px);
-    margin-left: 56px;
+    // flex: 0 0 calc(50% - 56px);
+    // margin-left: 56px;
+    flex: 0 0 50%;
     padding: 32px;
     display: flex;
     flex-direction: column;
@@ -235,6 +246,12 @@ export default {
     letter-spacing: 0.02em;
     color: $white;
     border: none;
+  }
+
+  @media screen and (max-device-width: 480px) {
+    .contact-form {
+      flex: 1 1 100%;
+    }
   }
 }
 </style>
