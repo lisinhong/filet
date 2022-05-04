@@ -140,6 +140,7 @@ export default {
               amount: this.amount,
             });
             this.handleSuccess();
+            this.$router.push("my-page");
             break;
           case "redeem":
             await this.redeem({
