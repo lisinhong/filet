@@ -2,7 +2,7 @@
   <div class="app-dashboard app-card-list">
     <div class="app-card">
       <p class="title">Total Value Locked</p>
-      <p class="sub-title">{{ totalAsset }} USDT</p>
+      <p class="sub-title">{{ numeral(totalAsset).format("0,0") }} USDT</p>
       <div class="chart">
         <doughnut-chart
           :chartData="doughnutChartData"
@@ -33,6 +33,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
+import numeral from "numeral";
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 import ProductInfo from "@/components/ProductInfo.vue";
 import LineChart from "@/components/charts/LineChart.vue";
@@ -114,6 +115,7 @@ export default {
   methods: {
     ...mapActions(["getTVL", "getTVLHistory", "getProduct"]),
     ...mapMutations(["setTVL", "setTVLHistory", "setProduct"]),
+    numeral,
   },
 };
 </script>

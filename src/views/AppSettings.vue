@@ -124,7 +124,6 @@ export default {
   watch: {
     "userInfo.email": {
       handler(email) {
-        console.log(email);
         this.newEmail = email;
       },
       immediate: true,

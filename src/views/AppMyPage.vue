@@ -2,7 +2,7 @@
   <div class="app-my-page app-card-list">
     <div class="app-card">
       <p class="title">Total Asset</p>
-      <p class="sub-title">{{ totalAsset }} USDT</p>
+      <p class="sub-title">{{ numeral(totalAsset).format("0,0") }} USDT</p>
       <div class="chart">
         <doughnut-chart
           :chartData="doughnutChartData"
@@ -32,6 +32,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+import numeral from "numeral";
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 import ProductInfo from "@/components/ProductInfo.vue";
 import TransactionHistory from "@/components/TransactionHistory.vue";
@@ -159,6 +160,7 @@ export default {
       "getProduct",
       "getUserTransactionHistory",
     ]),
+    numeral,
   },
 };
 </script>

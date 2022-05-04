@@ -8,7 +8,9 @@
             Period: <em>{{ product.period }}</em> Days
           </p>
           <p>
-            Minimum Investment: <em>{{ product.minimal }}</em> USDT
+            Minimum Investment:
+            <em>{{ numeral(product.minimal).format("0,0") }}</em>
+            USDT
           </p>
           <p>
             Management Fee: <em>{{ product.mfee }}</em> %
@@ -16,11 +18,13 @@
         </div>
         <div class="description">
           <p>
-            Performance Fee: <em>{{ product.pfee }}</em> %
+            Performance Fee:
+            <em>{{ numeral(product.pfee).format("0,0") }}</em>
+            %
           </p>
           <p>Early Redemption Fee: <em>1</em> % / Day</p>
           <p>
-            Max Drawdown: <em>{{ product.mdd }}</em> %
+            Max Drawdown: <em>{{ numeral(product.mdd).format("0,0") }}</em> %
           </p>
         </div>
       </template>
@@ -31,7 +35,7 @@
             Period: <em>{{ product.period }}</em> Days
           </p>
           <p>
-            Minimum: <em>{{ product.minimal }}</em> USDT
+            Minimum: <em>{{ numeral(product.minimal).format("0,0") }}</em> USDT
           </p>
         </div>
       </template>
@@ -46,6 +50,7 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import numeral from "numeral";
 
 export default {
   name: "ProductInfo",
@@ -68,6 +73,7 @@ export default {
   },
   methods: {
     ...mapMutations(["showAppModal"]),
+    numeral,
     handleRedeemClick() {
       this.showAppModal({
         type: "redeem",

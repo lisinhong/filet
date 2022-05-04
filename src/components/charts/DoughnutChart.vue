@@ -31,6 +31,7 @@
 
 <script>
 import { mapMutations, mapGetters, mapState } from "vuex";
+import numeral from "numeral";
 import DoughnutChartBase from "@/components/charts/DoughnutChartBase.vue";
 
 const getOrCreateLegendList = () => {
@@ -107,7 +108,9 @@ export default {
             const textContainer2 = document.createElement("p");
             const text = document.createTextNode(item.text);
             const value = document.createTextNode(
-              `${chart.config.data.datasets[0].data[index]} USDT`
+              `${numeral(chart.config.data.datasets[0].data[index]).format(
+                "0,0"
+              )} USDT`
             );
 
             boxSpan.style.backgroundColor =
@@ -132,6 +135,7 @@ export default {
   },
   methods: {
     ...mapMutations(["showAppModal"]),
+    numeral,
     handleWithdrawClick() {
       this.showAppModal({
         type: "withdraw",

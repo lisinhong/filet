@@ -28,7 +28,9 @@
         ></b-form-input>
         <span class="description" v-if="showDescription">
           Max:
-          <em @click="assignValue(modal.max)">{{ modal.max }}</em>
+          <em @click="assignValue(modal.max)">{{
+            numeral(modal.max).format("0,0")
+          }}</em>
           USDT
         </span>
       </b-form-group>
@@ -52,6 +54,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
+import numeral from "numeral";
 import IconClose from "@/components/icons/IconClose.vue";
 
 export default {
@@ -105,6 +108,7 @@ export default {
   methods: {
     ...mapMutations(["hideAppModal", "setUserAsset", "showAlert", "hideAlert"]),
     ...mapActions(["apply", "deposit", "withdraw", "redeem", "getUserAsset"]),
+    numeral,
     assignValue(value) {
       this.amount = Number(value);
     },

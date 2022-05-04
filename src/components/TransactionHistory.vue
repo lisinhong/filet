@@ -6,7 +6,8 @@
         <span class="type">{{ transaction.transactionType }}</span>
         <div class="record">
           <span class="amount">
-            {{ transaction.side }} <em>{{ transaction.amount }}</em> USDT
+            {{ transaction.side }}
+            <em>{{ numeral(transaction.amount).format("0,0") }}</em> USDT
             <span v-if="transaction.from">from {{ transaction.from }}</span>
           </span>
           <span class="time">{{
@@ -20,6 +21,7 @@
 
 <script>
 import { mapState } from "vuex";
+import numeral from "numeral";
 
 export default {
   name: "TransactionHistory",
@@ -31,6 +33,9 @@ export default {
   },
   computed: {
     ...mapState(["userTransactionHistory"]),
+  },
+  methods: {
+    numeral,
   },
 };
 </script>
