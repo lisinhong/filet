@@ -7,7 +7,7 @@
         <div class="record">
           <span class="amount">
             {{ transaction.side }}
-            <em>{{ numeral(transaction.amount).format("0,0") }}</em> USDT
+            <em>{{ numeral(transaction.amount).format("0,0.00") }}</em> USDT
             <span v-if="transaction.from">from {{ transaction.from }}</span>
           </span>
           <span class="time">{{
@@ -73,6 +73,10 @@ export default {
       font-style: normal;
       font-weight: 500;
     }
+  }
+
+  .time {
+    flex: 0 0 230px;
   }
 
   @media screen and (max-device-width: 480px) {

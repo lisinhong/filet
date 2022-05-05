@@ -109,14 +109,13 @@ export default {
             const text = document.createTextNode(item.text);
             const value = document.createTextNode(
               `${numeral(chart.config.data.datasets[0].data[index]).format(
-                "0,0"
+                "0,0.00"
               )} USDT`
             );
 
             boxSpan.style.backgroundColor =
               chart?.config?.data?.datasets[0]?.backgroundColor[index];
-            textContainer2.style.color =
-              chart?.config?.options?.plugins?.legend?.fontColor;
+            textContainer2.style.color = "#292B2B";
             textContainer1.appendChild(boxSpan);
             textContainer1.appendChild(text);
             textContainer2.appendChild(value);

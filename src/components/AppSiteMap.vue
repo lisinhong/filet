@@ -138,6 +138,7 @@ export default {
     padding: 0 20px 0 27px;
     height: $header-height;
     filter: drop-shadow(1px 0px 0px $gray-5);
+    cursor: pointer;
 
     > i {
       display: flex;
@@ -231,7 +232,7 @@ export default {
     padding: 0;
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-device-width: 949px) {
     background: $white;
     border: none;
 

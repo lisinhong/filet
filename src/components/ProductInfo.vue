@@ -9,7 +9,7 @@
           </p>
           <p>
             Minimum Investment:
-            <em>{{ numeral(product.minimal).format("0,0") }}</em>
+            <em>{{ numeral(product.minimal).format("0,0.00") }}</em>
             USDT
           </p>
           <p>
@@ -19,12 +19,12 @@
         <div class="description">
           <p>
             Performance Fee:
-            <em>{{ numeral(product.pfee).format("0,0") }}</em>
+            <em>{{ numeral(product.pfee).format("0,0.00") }}</em>
             %
           </p>
           <p>Early Redemption Fee: <em>1</em> % / Day</p>
           <p>
-            Max Drawdown: <em>{{ numeral(product.mdd).format("0,0") }}</em> %
+            Max Drawdown: <em>{{ numeral(product.mdd).format("0,0.00") }}</em> %
           </p>
         </div>
       </template>
@@ -35,7 +35,8 @@
             Period: <em>{{ product.period }}</em> Days
           </p>
           <p>
-            Minimum: <em>{{ numeral(product.minimal).format("0,0") }}</em> USDT
+            Minimum:
+            <em>{{ numeral(product.minimal).format("0,0.00") }}</em> USDT
           </p>
         </div>
       </template>
@@ -178,6 +179,32 @@ export default {
 
       & + .description {
         margin-top: 16px;
+      }
+    }
+  }
+
+  @media screen and (max-device-width: 839px) {
+    &.full-info {
+      .info {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-more,
+      button {
+        margin: 48px auto 0;
+      }
+
+      .rate {
+        margin: 0;
+      }
+
+      .description {
+        margin: 0 40px;
+
+        & + .description {
+          margin-top: 16px;
+        }
       }
     }
   }

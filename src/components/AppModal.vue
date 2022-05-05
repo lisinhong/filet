@@ -29,7 +29,7 @@
         <span class="description" v-if="showDescription">
           Max:
           <em @click="assignValue(modal.max)">{{
-            numeral(modal.max).format("0,0")
+            numeral(modal.max).format("0,0.00")
           }}</em>
           USDT
         </span>

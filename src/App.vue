@@ -45,7 +45,7 @@ export default {
   computed: {
     ...mapState(["showSidebar", "alert"]),
     isMobile() {
-      return document.documentElement.clientWidth < 481;
+      return document.documentElement.clientWidth < 950;
     },
   },
   async created() {
@@ -153,7 +153,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-device-width: 949px) {
     .app-main {
       max-width: 100%;
 

@@ -4,18 +4,10 @@
       <div class="setting-title">Account Info.</div>
       <div class="input-container">
         <b-form-group label-for="first-name" label="First name">
-          <b-form-input
-            id="first-name"
-            :value="userInfo.firstName"
-            readonly
-          ></b-form-input>
+          <b-form-input id="first-name" v-model="newFirstName"></b-form-input>
         </b-form-group>
         <b-form-group label-for="last-name" label="Last name">
-          <b-form-input
-            id="last-name"
-            :value="userInfo.lastName"
-            readonly
-          ></b-form-input>
+          <b-form-input id="last-name" v-model="newLastName"></b-form-input>
         </b-form-group>
         <b-form-group label-for="email" label="Email">
           <b-form-input
@@ -97,6 +89,8 @@ export default {
       oldPassword: null,
       newPassword: null,
       confirmNewPassword: null,
+      newFirstName: null,
+      newLastName: null,
       newEmail: null,
       newMobile: null,
       isLoading: false,
@@ -107,7 +101,9 @@ export default {
     ...mapGetters(["userName"]),
     isUpdateUserInfoDisabled() {
       return (
-        (this.newEmail === this.userInfo.email &&
+        (this.newFirstName === this.userInfo.firstName &&
+          this.newLastName === this.userInfo.lastName &&
+          this.newEmail === this.userInfo.email &&
           this.newMobile === this.userInfo.mobile) ||
         this.isLoading
       );
@@ -122,6 +118,18 @@ export default {
     },
   },
   watch: {
+    "userInfo.firstName": {
+      handler(firstName) {
+        this.newFirstName = firstName;
+      },
+      immediate: true,
+    },
+    "userInfo.lastName": {
+      handler(lastName) {
+        this.newLastName = lastName;
+      },
+      immediate: true,
+    },
     "userInfo.email": {
       handler(email) {
         this.newEmail = email;
@@ -156,8 +164,8 @@ export default {
           token: this.token,
           email: this.newEmail,
           mobile: this.newMobile,
-          firstName: this.userInfo.firstName,
-          lastName: this.userInfo.lastName,
+          firstName: this.newFirstName,
+          lastName: this.newLastName,
         });
 
         this.showAlert({
@@ -353,7 +361,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-device-width: 699px) {
     padding: 0;
 
     .account-info {

@@ -2,7 +2,7 @@
   <div class="app-my-page app-card-list">
     <div class="app-card">
       <p class="title">Total Asset</p>
-      <p class="sub-title">{{ numeral(totalAsset).format("0,0") }} USDT</p>
+      <p class="sub-title">{{ numeral(totalAsset).format("0,0.00") }} USDT</p>
       <div class="chart">
         <doughnut-chart
           :chartData="doughnutChartData"
@@ -64,11 +64,11 @@ export default {
       let backgroundColor;
 
       if (this.hasAsset) {
-        labels = ["Cash Back", "Fixed Interest"];
+        labels = ["Cash", "Fixed Interest"];
         data = [this.userAsset.cash, this.userAsset.interest];
         backgroundColor = ["#A81B15", "#EDC612"];
       } else {
-        labels = ["Cash Back", "Fixed Interest", ""];
+        labels = ["Cash", "Fixed Interest", ""];
         data = [0, 0, 100];
         backgroundColor = ["#F5F7F7", "#F5F7F7", "#F5F7F7"];
       }
