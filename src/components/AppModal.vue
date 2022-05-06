@@ -26,7 +26,14 @@
           :min="0"
           :state="inputState"
         ></b-form-input>
-        <span class="description" v-if="showDescription">
+        <span class="description" v-if="showMinDescription">
+          Min:
+          <em @click="assignValue(modal.min)">{{
+            numeral(modal.min).format("0,0.00")
+          }}</em>
+          USDT
+        </span>
+        <span class="description" v-if="showMaxDescription">
           Max:
           <em @click="assignValue(modal.max)">{{
             numeral(modal.max).format("0,0.00")
@@ -85,7 +92,10 @@ export default {
           return "";
       }
     },
-    showDescription() {
+    showMinDescription() {
+      return this.modal.min >= 0;
+    },
+    showMaxDescription() {
       return this.modal.max >= 0;
     },
     isConfirmDisabled() {
@@ -106,8 +116,21 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["hideAppModal", "setUserAsset", "showAlert", "hideAlert"]),
-    ...mapActions(["apply", "deposit", "withdraw", "redeem", "getUserAsset"]),
+    ...mapMutations([
+      "hideAppModal",
+      "setUserAsset",
+      "showAlert",
+      "hideAlert",
+      "setUserTransactionHistory",
+    ]),
+    ...mapActions([
+      "apply",
+      "deposit",
+      "withdraw",
+      "redeem",
+      "getUserAsset",
+      "getUserTransactionHistory",
+    ]),
     numeral,
     assignValue(value) {
       this.amount = Number(value);
@@ -167,6 +190,12 @@ export default {
           default:
             break;
         }
+
+        const response = await this.getUserTransactionHistory({
+          token: this.token,
+        });
+
+        this.setUserTransactionHistory(response.data);
       } catch (error) {
         this.isLoading = false;
         this.showAlert({

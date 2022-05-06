@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="account-footer">
-        <a href="#">Privacy Policy</a>
+        <router-link to="privacy">Privacy Policy</router-link>
         <a href="#">User Notice</a>
       </div>
     </div>
@@ -105,6 +105,14 @@ export default {
 
         this.setUserInfo(userInfoResponse.data);
         this.$router.replace("/");
+        this.showAlert({
+          variant: "success",
+          text: "Login successfully.",
+        });
+
+        setTimeout(() => {
+          this.hideAlert();
+        }, 3000);
       } catch (error) {
         this.loginState = false;
         this.showAlert({

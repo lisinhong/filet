@@ -77,8 +77,23 @@ const routes = [
   },
   {
     path: "/forgot-password",
-    name: "ForgotPassword",
+    name: "Forgot Password",
     component: () => import("@/views/AppForgotPassword.vue"),
+  },
+  {
+    path: "/recover/forgot-password",
+    name: "Change Password",
+    component: () => import("@/views/AppChangePassword.vue"),
+  },
+  {
+    path: "/terms",
+    name: "Terms Of Services",
+    component: () => import("@/views/AppTermsOfServices.vue"),
+  },
+  {
+    path: "/privacy",
+    name: "Privacy Policy",
+    component: () => import("@/views/AppPrivacyPolicy.vue"),
   },
   {
     path: "/error",

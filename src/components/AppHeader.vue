@@ -52,7 +52,7 @@ export default {
     ...mapGetters(["isLogin", "userName"]),
   },
   methods: {
-    ...mapMutations(["toggleSidebar", "setToken", "setUserInfo"]),
+    ...mapMutations(["toggleSidebar", "setToken", "setUserInfo", "resetUser"]),
     ...mapActions(["logout"]),
     async handleLogout() {
       try {
@@ -60,18 +60,9 @@ export default {
           token: this.token,
         });
 
-        this.setToken(null);
-        this.setUserInfo({
-          firstName: null,
-          lastName: null,
-          mobile: null,
-          email: null,
-          myReferral: null,
-          referralFrom: null,
-          wallet: null,
-          createTime: null,
-        });
+        this.resetUser();
         this.$cookies.remove("token");
+        this.$router.push("/");
       } catch (error) {
         console.error(error);
       }

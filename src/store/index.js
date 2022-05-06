@@ -74,6 +74,7 @@ export default new Vuex.Store({
       show: false,
       type: null,
       max: null,
+      min: null,
     },
     alert: {
       show: false,
@@ -112,7 +113,7 @@ export default new Vuex.Store({
       state.showSidebar = !state.showSidebar;
     },
     showAppModal(state, data) {
-      const { type, max } = data;
+      const { type, max, min } = data;
 
       if (!type) {
         return;
@@ -122,6 +123,7 @@ export default new Vuex.Store({
         show: true,
         type,
         max,
+        min,
       };
     },
     hideAppModal(state) {
@@ -129,6 +131,7 @@ export default new Vuex.Store({
         show: false,
         type: null,
         max: null,
+        min: null,
       };
     },
     setToken(state, token) {
@@ -177,6 +180,35 @@ export default new Vuex.Store({
         variant: null,
         text: null,
       };
+    },
+    resetUser(state) {
+      state.token = null;
+      state.userInfo = {
+        firstName: null,
+        lastName: null,
+        mobile: null,
+        email: null,
+        myReferral: null,
+        referralFrom: null,
+        wallet: null,
+        createTime: null,
+      };
+      state.userAsset = {
+        cash: null,
+        interest: null,
+      };
+      state.userWalletInfo = {
+        wallet: null,
+        amount: null,
+      };
+      state.userFixedInterestRate = {
+        id: null,
+        name: null,
+        rates: null,
+        interest: null,
+        remainDay: null,
+      };
+      state.userTransactionHistory = [];
     },
   },
   actions: {

@@ -31,13 +31,29 @@
       <template v-else>
         <div class="rate">{{ product.rates }}%</div>
         <div class="description">
-          <p>
-            Period: <em>{{ product.period }}</em> Days
-          </p>
-          <p>
-            Minimum:
-            <em>{{ numeral(product.minimal).format("0,0.00") }}</em> USDT
-          </p>
+          <template v-if="redeem">
+            <p>
+              <em>
+                {{ numeral(userFixedInterestRate.interest).format("0,0.00") }}
+              </em>
+              USDT
+            </p>
+            <p>
+              <em>
+                {{ userFixedInterestRate.remainDay }}
+              </em>
+              Day(s) Remain
+            </p>
+          </template>
+          <template v-else>
+            <p>
+              Period: <em>{{ product.period }}</em> Days
+            </p>
+            <p>
+              Minimum:
+              <em>{{ numeral(product.minimal).format("0,0.00") }}</em> USDT
+            </p>
+          </template>
         </div>
       </template>
     </div>
@@ -70,7 +86,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["product", "userAsset", "userFixedInterestRate"]),
+    ...mapState(["product", "userAsset", "userFixedInterestRate", "token"]),
   },
   methods: {
     ...mapMutations(["showAppModal"]),
@@ -82,9 +98,14 @@ export default {
       });
     },
     handleApplyClick() {
+      if (!this.token) {
+        this.$router.push("login");
+        return;
+      }
       this.showAppModal({
         type: "apply",
         max: this.userAsset.cash,
+        min: this.product.minimal,
       });
     },
   },

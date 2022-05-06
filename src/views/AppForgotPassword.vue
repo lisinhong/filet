@@ -26,8 +26,7 @@
         </div>
       </div>
       <div class="account-footer">
-        <a href="#">Login Help</a>
-        <a href="#">Contact Support</a>
+        <router-link to="contact">Contact Support</router-link>
       </div>
     </div>
   </div>

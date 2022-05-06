@@ -25,7 +25,8 @@
           :value="true"
           :unchecked-value="false"
         >
-          I agree to the <a href="#">Terms of Services.</a>
+          I agree to the
+          <router-link to="terms">Terms of Services.</router-link>
         </b-form-checkbox>
         <button
           type="button"
@@ -125,8 +126,7 @@
         </button>
       </div>
       <div class="account-footer">
-        <a href="#">Privacy Policy</a>
-        <a href="#">User Notice</a>
+        <router-link to="privacy">Privacy Policy</router-link>
       </div>
     </div>
   </div>
@@ -241,6 +241,15 @@ export default {
           referralFrom: this.referrer,
         });
         this.$router.replace("login");
+
+        this.showAlert({
+          variant: "success",
+          text: "Register successfully.",
+        });
+
+        setTimeout(() => {
+          this.hideAlert();
+        }, 3000);
       } catch (error) {
         this.registerState = false;
         this.handleError(error?.response?.data?.message);

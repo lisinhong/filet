@@ -1,51 +1,8 @@
 <template>
-  <div class="app-profile">
-    <div class="account-info">
-      <div class="setting-title">Account Info.</div>
-      <div class="input-container">
-        <b-form-group label-for="first-name" label="First name">
-          <b-form-input id="first-name" v-model="newFirstName"></b-form-input>
-        </b-form-group>
-        <b-form-group label-for="last-name" label="Last name">
-          <b-form-input id="last-name" v-model="newLastName"></b-form-input>
-        </b-form-group>
-        <b-form-group label-for="email" label="Email">
-          <b-form-input
-            id="email"
-            type="email"
-            v-model="newEmail"
-            placeholder="example@example.com"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group label-for="phone-number" label="Phone number (Optional)">
-          <b-form-input
-            id="phone-number"
-            type="tel"
-            v-model="newMobile"
-            placeholder="+1 123456789"
-          ></b-form-input>
-        </b-form-group>
-        <div class="button-container">
-          <button
-            :disabled="isUpdateUserInfoDisabled"
-            @click="handleUpdateUserInfoClick"
-          >
-            Update
-          </button>
-        </div>
-      </div>
-    </div>
+  <div class="app-change-password">
     <div class="change-password">
       <div class="setting-title">Change Password</div>
       <div class="input-container">
-        <b-form-group label-for="old-password" label="Old password">
-          <b-form-input
-            id="old-password"
-            type="password"
-            v-model="oldPassword"
-            placeholder="Your answer"
-          ></b-form-input>
-        </b-form-group>
         <b-form-group label-for="new-password" label="New password">
           <b-form-input
             id="new-password"
@@ -80,115 +37,25 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapMutations, mapActions } from "vuex";
 
 export default {
-  name: "AppProfile",
+  name: "AppChangePassword",
   data() {
     return {
-      oldPassword: null,
       newPassword: null,
       confirmNewPassword: null,
-      newFirstName: null,
-      newLastName: null,
-      newEmail: null,
-      newMobile: null,
       isLoading: false,
     };
   },
   computed: {
-    ...mapState(["userInfo", "token"]),
-    ...mapGetters(["userName"]),
-    isUpdateUserInfoDisabled() {
-      return (
-        (this.newFirstName === this.userInfo.firstName &&
-          this.newLastName === this.userInfo.lastName &&
-          this.newEmail === this.userInfo.email &&
-          this.newMobile === this.userInfo.mobile) ||
-        this.isLoading
-      );
-    },
     isChangePasswordDisabled() {
-      return (
-        !this.oldPassword ||
-        !this.newPassword ||
-        !this.confirmNewPassword ||
-        this.isLoading
-      );
+      return !this.newPassword || !this.confirmNewPassword || this.isLoading;
     },
-  },
-  watch: {
-    "userInfo.firstName": {
-      handler(firstName) {
-        this.newFirstName = firstName;
-      },
-      immediate: true,
-    },
-    "userInfo.lastName": {
-      handler(lastName) {
-        this.newLastName = lastName;
-      },
-      immediate: true,
-    },
-    "userInfo.email": {
-      handler(email) {
-        this.newEmail = email;
-      },
-      immediate: true,
-    },
-    "userInfo.mobile": {
-      handler(mobile) {
-        this.newMobile = mobile;
-      },
-      immediate: true,
-    },
-  },
-  async created() {
-    if (!this.token) {
-      return;
-    }
-    const userInfoResponse = await this.getUserInfo({
-      token: this.token,
-    });
-
-    this.setUserInfo(userInfoResponse.data);
   },
   methods: {
-    ...mapActions(["updateUserInfo", "changePassword", "getUserInfo"]),
-    ...mapMutations(["setUserInfo", "showAlert", "hideAlert"]),
-    async handleUpdateUserInfoClick() {
-      this.isLoading = true;
-
-      try {
-        await this.updateUserInfo({
-          token: this.token,
-          email: this.newEmail,
-          mobile: this.newMobile,
-          firstName: this.newFirstName,
-          lastName: this.newLastName,
-        });
-
-        this.showAlert({
-          text: "Update successfully.",
-          variant: "success",
-        });
-
-        const userInfoResponse = await this.getUserInfo({
-          token: this.token,
-        });
-
-        this.setUserInfo(userInfoResponse.data);
-      } catch (error) {
-        this.showAlert({
-          text: error?.response?.data?.message,
-        });
-      } finally {
-        setTimeout(() => {
-          this.hideAlert();
-        }, 3000);
-        this.isLoading = false;
-      }
-    },
+    ...mapActions(["changePassword"]),
+    ...mapMutations(["showAlert", "hideAlert"]),
     async handleChangePasswordClick() {
       if (this.newPassword !== this.confirmNewPassword) {
         this.showAlert({
@@ -206,17 +73,16 @@ export default {
 
       try {
         await this.changePassword({
-          token: this.token,
-          oldPassword: this.oldPassword,
+          otpCode: this.$route.query.otp,
           newPassword: this.newPassword,
         });
-        this.oldPassword = null;
         this.newPassword = null;
         this.confirmNewPassword = null;
         this.showAlert({
           text: "Update successfully.",
           variant: "success",
         });
+        this.$router.replace("/login");
       } catch (error) {
         this.showAlert({
           text: error?.response?.data?.message,
@@ -233,16 +99,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-profile {
+.app-change-password {
   width: 100%;
   height: 100%;
   padding: 16px 56px;
   display: flex;
   flex-direction: column;
-
-  .account-info {
-    display: flex;
-  }
 
   .setting-title {
     min-width: 20%;
@@ -251,26 +113,6 @@ export default {
     line-height: 32px;
     letter-spacing: 0.02em;
     color: $black;
-  }
-
-  .personal-info {
-    display: flex;
-    flex-direction: column;
-    width: 664px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    letter-spacing: 0.02em;
-    color: $brand-dark;
-  }
-
-  .user-name {
-    margin: 24px 0;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    letter-spacing: 0.02em;
-    color: $brand-dark;
   }
 
   .input-container {
