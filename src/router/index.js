@@ -88,11 +88,19 @@ const routes = [
   {
     path: "/terms",
     name: "Terms Of Services",
+    meta: {
+      showAppHeader: true,
+      showAppSidebar: true,
+    },
     component: () => import("@/views/AppTermsOfServices.vue"),
   },
   {
     path: "/privacy",
     name: "Privacy Policy",
+    meta: {
+      showAppHeader: true,
+      showAppSidebar: true,
+    },
     component: () => import("@/views/AppPrivacyPolicy.vue"),
   },
   {

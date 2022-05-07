@@ -47,7 +47,6 @@
       </div>
       <div class="account-footer">
         <router-link to="privacy">Privacy Policy</router-link>
-        <a href="#">User Notice</a>
       </div>
     </div>
   </div>
