@@ -74,7 +74,6 @@ export default new Vuex.Store({
       show: false,
       type: null,
       max: null,
-      min: null,
     },
     alert: {
       show: false,
@@ -113,7 +112,7 @@ export default new Vuex.Store({
       state.showSidebar = !state.showSidebar;
     },
     showAppModal(state, data) {
-      const { type, max, min } = data;
+      const { type, max } = data;
 
       if (!type) {
         return;
@@ -123,7 +122,6 @@ export default new Vuex.Store({
         show: true,
         type,
         max,
-        min,
       };
     },
     hideAppModal(state) {
@@ -131,7 +129,6 @@ export default new Vuex.Store({
         show: false,
         type: null,
         max: null,
-        min: null,
       };
     },
     setToken(state, token) {

@@ -26,13 +26,6 @@
           :min="0"
           :state="inputState"
         ></b-form-input>
-        <span class="description" v-if="showMinDescription">
-          Min:
-          <em @click="assignValue(modal.min)">{{
-            numeral(modal.min).format("0,0.00")
-          }}</em>
-          USDT
-        </span>
         <span class="description" v-if="showMaxDescription">
           Max:
           <em @click="assignValue(modal.max)">{{
@@ -91,9 +84,6 @@ export default {
         default:
           return "";
       }
-    },
-    showMinDescription() {
-      return this.modal.min >= 0;
     },
     showMaxDescription() {
       return this.modal.max >= 0;

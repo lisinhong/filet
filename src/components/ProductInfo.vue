@@ -105,7 +105,6 @@ export default {
       this.showAppModal({
         type: "apply",
         max: this.userAsset.cash,
-        min: this.product.minimal,
       });
     },
   },
