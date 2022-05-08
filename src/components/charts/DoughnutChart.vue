@@ -109,7 +109,8 @@ export default {
             const text = document.createTextNode(item.text);
             const value = document.createTextNode(
               `${numeral(chart.config.data.datasets[0].data[index]).format(
-                "0,0.00"
+                "0,0.00",
+                Math.floor
               )} USDT`
             );
 

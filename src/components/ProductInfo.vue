@@ -9,7 +9,7 @@
           </p>
           <p>
             Minimum Investment:
-            <em>{{ numeral(product.minimal).format("0,0.00") }}</em>
+            <em>{{ numeral(product.minimal).format("0,0.00", Math.floor) }}</em>
             USDT
           </p>
           <p>
@@ -19,7 +19,7 @@
         <div class="description">
           <p>
             Performance Fee:
-            <em>{{ numeral(product.pfee).format("0,0.00") }}</em>
+            <em>{{ numeral(product.pfee).format("0,0.00", Math.floor) }}</em>
             %
           </p>
           <p>Early Redemption Fee: <em>1</em> % / Day</p>
@@ -34,7 +34,12 @@
           <template v-if="redeem">
             <p>
               <em>
-                {{ numeral(userFixedInterestRate.interest).format("0,0.00") }}
+                {{
+                  numeral(userFixedInterestRate.interest).format(
+                    "0,0.00",
+                    Math.floor
+                  )
+                }}
               </em>
               USDT
             </p>
@@ -51,7 +56,10 @@
             </p>
             <p>
               Minimum:
-              <em>{{ numeral(product.minimal).format("0,0.00") }}</em> USDT
+              <em>{{
+                numeral(product.minimal).format("0,0.00", Math.floor)
+              }}</em>
+              USDT
             </p>
           </template>
         </div>

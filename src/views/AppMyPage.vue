@@ -2,7 +2,9 @@
   <div class="app-my-page app-card-list">
     <div class="app-card">
       <p class="title">Total Asset</p>
-      <p class="sub-title">{{ numeral(totalAsset).format("0,0.00") }} USDT</p>
+      <p class="sub-title">
+        {{ numeral(totalAsset).format("0,0.00", Math.floor) }} USDT
+      </p>
       <div class="chart">
         <doughnut-chart
           :chartData="doughnutChartData"

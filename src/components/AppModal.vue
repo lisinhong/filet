@@ -29,7 +29,7 @@
         <span class="description" v-if="showMaxDescription">
           Max:
           <em @click="assignValue(modal.max)">{{
-            numeral(modal.max).format("0,0.00")
+            numeral(modal.max).format("0,0.00", Math.floor)
           }}</em>
           USDT
         </span>
@@ -123,7 +123,7 @@ export default {
     ]),
     numeral,
     assignValue(value) {
-      this.amount = Number(value);
+      this.amount = Math.floor(Number(value) * 100) / 100;
     },
     handleSuccess() {
       this.isLoading = false;
