@@ -217,6 +217,7 @@ export default {
           text: "Update successfully.",
           variant: "success",
         });
+        this.$router.push("login");
       } catch (error) {
         this.showAlert({
           text: error?.response?.data?.message,

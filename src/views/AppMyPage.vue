@@ -1,7 +1,7 @@
 <template>
   <div class="app-my-page app-card-list">
     <div class="app-card">
-      <p class="title">Total Asset</p>
+      <p class="title">My Value</p>
       <p class="sub-title">
         {{ numeral(totalAsset).format("0,0.00", Math.floor) }} USDT
       </p>
@@ -20,7 +20,10 @@
         Fixed Interest
       </p>
       <div class="content">
-        <product-info :redeem="hasUserProductInfo" />
+        <product-info
+          :redeem="hasUserProductInfo"
+          :apply="hasUserProductInfo"
+        />
       </div>
     </div>
     <div class="app-card large">
@@ -66,11 +69,11 @@ export default {
       let backgroundColor;
 
       if (this.hasAsset) {
-        labels = ["Cash", "Fixed Interest"];
+        labels = ["Deposit", "Fixed Interest"];
         data = [this.userAsset.cash, this.userAsset.interest];
         backgroundColor = ["#A81B15", "#EDC612"];
       } else {
-        labels = ["Cash", "Fixed Interest", ""];
+        labels = ["Deposit", "Fixed Interest", ""];
         data = [0, 0, 100];
         backgroundColor = ["#F5F7F7", "#F5F7F7", "#F5F7F7"];
       }

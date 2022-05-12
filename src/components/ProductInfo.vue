@@ -33,6 +33,7 @@
         <div class="description">
           <template v-if="redeem">
             <p>
+              Expect Interest:
               <em>
                 {{
                   numeral(userFixedInterestRate.interest).format(
@@ -44,6 +45,7 @@
               USDT
             </p>
             <p>
+              Maturity Date:
               <em>
                 {{ userFixedInterestRate.remainDay }}
               </em>
@@ -65,11 +67,15 @@
         </div>
       </template>
     </div>
-    <button v-if="redeem" @click="handleRedeemClick">Redeem</button>
-    <button v-else-if="apply" @click="handleApplyClick">Apply</button>
-    <router-link class="btn-more" to="products" v-else>
-      <button>More</button>
-    </router-link>
+    <div class="button-list">
+      <button v-if="redeem" class="btn-redeem" @click="handleRedeemClick">
+        Redeem
+      </button>
+      <button v-if="apply" @click="handleApplyClick">Apply</button>
+      <router-link class="btn-more" to="products" v-if="!redeem && !apply">
+        <button>More</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -168,13 +174,21 @@ export default {
     }
   }
 
-  .btn-more {
+  .button-list {
     margin: auto 0 0 auto;
+  }
+
+  .btn-more {
     text-decoration: none;
   }
 
+  .btn-redeem {
+    color: $brand-dark;
+    background-color: #ffffff;
+    border: 1px solid $brand-dark;
+  }
+
   button {
-    margin: auto 0 0 auto;
     padding: 8px 0;
     width: 80px;
     background: $brand-dark;
@@ -185,6 +199,10 @@ export default {
     line-height: 16px;
     letter-spacing: 0.02em;
     color: $white;
+
+    & + button {
+      margin-left: 12px;
+    }
   }
 
   @media screen and (max-device-width: 480px) {

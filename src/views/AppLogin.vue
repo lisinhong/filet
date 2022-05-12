@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapState, mapGetters } from "vuex";
 import IconPolygon from "@/components/icons/IconPolygon.vue";
 
 export default {
@@ -71,13 +71,33 @@ export default {
     };
   },
   computed: {
+    ...mapState(["token"]),
+    ...mapGetters(["isLogin"]),
     isLoginDisabled() {
       return !this.email || !this.password || this.isLoading;
     },
   },
+  async created() {
+    if (!this.isLogin) {
+      return;
+    }
+
+    await this.logout({
+      token: this.token,
+    });
+
+    this.resetUser();
+    this.$cookies.remove("token");
+  },
   methods: {
-    ...mapActions(["login", "getUserInfo"]),
-    ...mapMutations(["setToken", "setUserInfo", "showAlert", "hideAlert"]),
+    ...mapActions(["login", "getUserInfo", "logout"]),
+    ...mapMutations([
+      "setToken",
+      "setUserInfo",
+      "showAlert",
+      "hideAlert",
+      "resetUser",
+    ]),
     async handleLogin() {
       this.loginState = null;
       this.isLoading = true;

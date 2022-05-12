@@ -35,8 +35,9 @@
         </span>
       </b-form-group>
       <p v-else>
-        It will redeem all the money and transfer to your account next trading
-        day. Are you firm on this?
+        You are going to redeem your fixed interest. The redemption will be on
+        the 7th of the following month and you will no longer be able to receive
+        your interest. Are you sure you want to do this?
       </p>
     </div>
     <div class="footer">
@@ -76,7 +77,7 @@ export default {
         case "apply":
           return "Apply";
         case "redeem":
-          return "Early Redemption";
+          return "Redemption";
         case "deposit":
           return "Deposit";
         case "withdraw":

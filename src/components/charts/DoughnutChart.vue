@@ -7,7 +7,7 @@
       :chartData="chartData"
       :chartOptions="chartOptions"
     />
-    <div>
+    <div class="more-info">
       <div class="legend-container"></div>
       <div class="button-list" v-if="enableActions">
         <button
@@ -153,9 +153,14 @@ export default {
 
 <style lang="scss" scoped>
 .doughnut-chart {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .more-info {
+    flex: 1;
+  }
 
   .legend-container {
     display: flex;
@@ -203,7 +208,9 @@ export default {
   }
 
   .button-list {
-    margin: 30px 0 0 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     display: flex;
 
     button {
@@ -259,6 +266,7 @@ export default {
     }
 
     .button-list {
+      position: relative;
       margin: 30px 0 0;
     }
   }
