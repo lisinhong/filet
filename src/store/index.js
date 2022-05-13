@@ -101,11 +101,6 @@ export default new Vuex.Store({
       }
       return `${state.userInfo.firstName} ${state.userInfo.lastName}`;
     },
-    totalAsset(state) {
-      const { deposit, interest } = state.tvl;
-
-      return Number(deposit) + Number(interest);
-    },
   },
   mutations: {
     toggleSidebar(state) {

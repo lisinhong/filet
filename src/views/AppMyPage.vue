@@ -3,7 +3,7 @@
     <div class="app-card">
       <p class="title">My Value</p>
       <p class="sub-title">
-        {{ numeral(totalAsset).format("0,0.00", Math.floor) }} USDT
+        {{ numeral(userAsset.totalAsset).format("0,0.00", Math.floor) }} USDT
       </p>
       <div class="chart">
         <doughnut-chart
@@ -58,10 +58,7 @@ export default {
     ...mapState(["userAsset", "token", "userTransactionHistory"]),
     ...mapGetters(["isLogin"]),
     hasAsset() {
-      return this.totalAsset > 0;
-    },
-    totalAsset() {
-      return Number(this.userAsset.cash) + Number(this.userAsset.interest);
+      return this.userAsset.totalAsset > 0;
     },
     doughnutChartData() {
       let labels;

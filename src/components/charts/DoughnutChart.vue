@@ -1,12 +1,14 @@
 <template>
   <div class="doughnut-chart">
-    <doughnut-chart-base
-      :width="width"
-      :height="height"
-      :plugins="[htmlLegendPlugin]"
-      :chartData="chartData"
-      :chartOptions="chartOptions"
-    />
+    <div class="chart-container">
+      <doughnut-chart-base
+        :width="width"
+        :height="height"
+        :plugins="[htmlLegendPlugin]"
+        :chartData="chartData"
+        :chartOptions="chartOptions"
+      />
+    </div>
     <div class="more-info">
       <div class="legend-container"></div>
       <div class="button-list" v-if="enableActions">
@@ -156,13 +158,22 @@ export default {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+
+  .chart-container {
+    flex: 0 0 175px;
+    width: 175px;
+  }
 
   .more-info {
-    flex: 1;
+    flex: 0 1 250px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
   }
 
   .legend-container {
+    margin-bottom: auto;
     display: flex;
     flex-direction: column;
 
@@ -208,9 +219,7 @@ export default {
   }
 
   .button-list {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    margin: 0 0 0 50px;
     display: flex;
 
     button {
