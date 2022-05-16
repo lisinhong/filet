@@ -39,6 +39,7 @@ body {
 .app-card {
   flex: 1 1 auto;
   width: 40%;
+  min-width: 491px;
   min-height: 320px;
   display: flex;
   flex-direction: column;
@@ -288,7 +289,7 @@ body {
   }
 }
 
-@media screen and (max-device-width: 1439px) {
+@media screen and (max-width: 1439px) {
   .account-container {
     width: 100%;
 
@@ -299,6 +300,8 @@ body {
   }
 
   .app-card {
-    width: 100%;
+    margin: 0 auto;
+    flex: 0 0 70%;
+    width: 70%;
   }
 }

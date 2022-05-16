@@ -260,7 +260,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px) {
     margin-top: 24px;
     flex-direction: column;
 

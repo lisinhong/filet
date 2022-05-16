@@ -82,7 +82,7 @@ export default {
     flex: 0 0 230px;
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px) {
     .record {
       margin-top: 8px;
       flex-direction: column;

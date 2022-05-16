@@ -223,7 +223,7 @@ export default {
     padding: 0;
   }
 
-  @media screen and (max-device-width: 949px) {
+  @media screen and (max-width: 949px) {
     background: $white;
     border: none;
 

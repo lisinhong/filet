@@ -252,7 +252,7 @@ export default {
     border: none;
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px) {
     .contact-form {
       flex: 1 1 100%;
     }

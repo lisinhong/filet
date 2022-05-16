@@ -205,7 +205,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px) {
     .info {
       flex-direction: column;
       align-items: stretch;
@@ -229,7 +229,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 839px) {
+  @media screen and (max-width: 839px) {
     &.full-info {
       .info {
         flex-direction: column;

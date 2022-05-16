@@ -197,7 +197,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px) {
     padding: 0 24px;
 
     ::v-deep {

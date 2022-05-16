@@ -202,7 +202,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 699px) {
+  @media screen and (max-width: 699px) {
     padding: 0;
 
     .account-info {

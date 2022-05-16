@@ -343,7 +343,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px) {
     .step-3 {
       .password-container {
         flex-wrap: wrap;

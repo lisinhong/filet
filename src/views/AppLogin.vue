@@ -157,7 +157,7 @@ export default {
   justify-content: center;
   align-items: center;
 
-  @media screen and (max-device-width: 480px) {
+  @media screen and (max-width: 480px) {
     .custom-checkbox {
       margin-top: 12px;
     }

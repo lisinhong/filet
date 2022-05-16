@@ -153,7 +153,7 @@ export default {
     }
   }
 
-  @media screen and (max-device-width: 949px) {
+  @media screen and (max-width: 949px) {
     .app-main {
       max-width: 100%;
 
