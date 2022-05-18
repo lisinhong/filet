@@ -91,6 +91,10 @@ export default {
     .amount {
       margin-bottom: 24px;
     }
+
+    .time {
+      flex: 0 0 auto;
+    }
   }
 }
 </style>

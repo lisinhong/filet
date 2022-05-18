@@ -263,6 +263,12 @@ export default {
   @media screen and (max-width: 480px) {
     margin-top: 24px;
     flex-direction: column;
+    align-items: center;
+
+    .more-info {
+      width: auto;
+      flex: 0 0 auto;
+    }
 
     .legend-container {
       margin-top: 32px;

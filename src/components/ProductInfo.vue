@@ -208,7 +208,6 @@ export default {
   @media screen and (max-width: 480px) {
     .info {
       flex-direction: column;
-      align-items: stretch;
     }
 
     .btn-more,

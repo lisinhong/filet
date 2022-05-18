@@ -305,3 +305,11 @@ body {
     width: 70%;
   }
 }
+
+@media screen and (max-width: 639px) {
+  .app-card {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: unset;
+  }
+}
