@@ -1,6 +1,9 @@
 <template>
   <div class="app-faq">
-    <ul>
+    <div class="loading" v-if="isLoading">
+      <icon-loading />
+    </div>
+    <ul v-else>
       <li
         v-b-toggle="index.toString()"
         v-for="(item, index) in faq"
@@ -23,17 +26,29 @@
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import IconArrowDown from "@/components/icons/IconArrowDown.vue";
+import IconLoading from "@/components/icons/IconLoading.vue";
 
 export default {
   name: "AppFaq",
   components: {
     IconArrowDown,
+    IconLoading,
+  },
+  data() {
+    return {
+      isLoading: false,
+    };
   },
   computed: {
     ...mapState(["faq"]),
   },
   created() {
-    this.getFaq().then((response) => this.setFaq(response.data));
+    this.isLoading = true;
+    this.getFaq()
+      .then((response) => this.setFaq(response.data))
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
     ...mapActions(["getFaq"]),
@@ -43,7 +58,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes loading-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate((360deg));
+  }
+}
+
 .app-faq {
+  width: 100%;
+  height: 100%;
+
+  .loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      animation: loading-spin 2s linear infinite;
+    }
+  }
+
   ul {
     margin: 0;
     padding: 0 32px;

@@ -14,7 +14,7 @@
             <span v-if="transaction.from">from {{ transaction.from }}</span>
           </span>
           <span class="time">{{
-            new Date(transaction.time).toGMTString()
+            dayjs(transaction.time).format("ddd, MMM D, YYYY, hh:mm:ss A")
           }}</span>
         </div>
       </li>
@@ -25,6 +25,9 @@
 <script>
 import { mapState } from "vuex";
 import numeral from "numeral";
+import dayjs from "dayjs";
+
+dayjs.locale("es");
 
 export default {
   name: "TransactionHistory",
@@ -39,6 +42,7 @@ export default {
   },
   methods: {
     numeral,
+    dayjs,
   },
 };
 </script>
@@ -80,6 +84,7 @@ export default {
 
   .time {
     flex: 0 0 230px;
+    text-align: right;
   }
 
   @media screen and (max-width: 480px) {

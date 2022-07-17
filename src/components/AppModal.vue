@@ -25,6 +25,7 @@
           placeholder="0"
           :min="0"
           :state="inputState"
+          :formatter="amountFormatter"
         ></b-form-input>
         <span class="description" v-if="showMaxDescription">
           Max:
@@ -123,6 +124,9 @@ export default {
       "getUserTransactionHistory",
     ]),
     numeral,
+    amountFormatter(inputAmount) {
+      return numeral(numeral(inputAmount).format("0,0.00", Math.floor)).value();
+    },
     assignValue(value) {
       this.amount = Math.floor(Number(value) * 100) / 100;
     },

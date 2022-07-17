@@ -108,13 +108,13 @@
         <div class="note">
           * At least 8 characters with 1 upper case, 1 lower case, and 1 number.
         </div>
-        <b-form-group label-for="referrer" label="Referrer">
+        <b-form-group label-for="referral" label="Referral (Optional)">
           <b-form-input
-            id="referrer"
+            id="referral"
             type="text"
-            v-model="referrer"
+            v-model="referral"
             :state="registerState"
-            placeholder="Type your referrer"
+            placeholder="Type your referral code"
           ></b-form-input>
         </b-form-group>
         <button
@@ -160,7 +160,7 @@ export default {
       lastName: null,
       password: null,
       confirmPassword: null,
-      referrer: null,
+      referral: null,
     };
   },
   computed: {
@@ -238,7 +238,7 @@ export default {
           password: this.password,
           firstName: this.firstName,
           lastName: this.lastName,
-          referralFrom: this.referrer,
+          referralFrom: this.referral,
         });
         this.$router.replace("login");
 
