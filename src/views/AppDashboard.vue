@@ -102,6 +102,16 @@ export default {
           legend: {
             display: false,
           },
+          tooltip: {
+            callbacks: {
+              title(item) {
+                return item[0].label;
+              },
+              label(item) {
+                return numeral(item.raw).format("0,0.00");
+              },
+            },
+          },
         },
       };
     },

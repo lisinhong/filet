@@ -6,7 +6,8 @@ import $router from "@/router";
 Vue.use(Vuex);
 
 const $axios = axios.create({
-  baseURL: "https://thiv1xxsjc.execute-api.ap-southeast-1.amazonaws.com/prod",
+  // baseURL: "https://thiv1xxsjc.execute-api.ap-southeast-1.amazonaws.com/prod",
+  baseURL: "https://zcn81lw3lh.execute-api.ap-southeast-1.amazonaws.com/prod",
   timeout: 10000,
 });
 
