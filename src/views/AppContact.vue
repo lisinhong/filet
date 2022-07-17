@@ -1,18 +1,5 @@
 <template>
   <div class="app-contact">
-    <!-- <div class="contact-header">
-      <div class="text">
-        We connect women founders and mentors around the world. Let us help each
-        other succeed!
-      </div>
-      <div class="image">
-        <img
-          :src="require('@/assets/contact.jpg')"
-          alt=""
-          :srcset="`${require('@/assets/contact.jpg')} 1x, ${require('@/assets/contact@2x.jpg')} 2x`"
-        />
-      </div>
-    </div> -->
     <div class="contact-form">
       <div class="contact-title">CONTACT US</div>
       <div class="contact-description">
@@ -40,7 +27,7 @@
           id="message"
           v-model="message"
           placeholder="Your message goes here"
-          rows="3"
+          rows="6"
           max-rows="6"
         ></b-form-textarea>
       </b-form-group>
@@ -49,17 +36,9 @@
         @click="handleContactClick"
         :disabled="isContactDisabled"
       >
-        SEND
+        Send
       </button>
     </div>
-    <!-- <div class="contact-information">
-      <div class="contact-title">WORKING HOURS</div>
-      <div class="contact-description">9 AM - 5 PM, Mon to Fri</div>
-      <div class="contact-title">CONTACT</div>
-      <div class="contact-description">contact@business.com</div>
-      <div class="contact-title">FIND US ON LINKEDIN</div>
-      <div class="contact-title">FIND US ON FACEBOOK</div>
-    </div> -->
   </div>
 </template>
 
@@ -168,14 +147,13 @@ export default {
   }
 
   .contact-form {
-    // flex: 0 0 calc(50% - 56px);
-    // margin-left: 56px;
-    flex: 0 0 50%;
+    flex: 0 0 100%;
     padding: 32px;
     display: flex;
     flex-direction: column;
     border: 1px solid $gray-5;
     border-radius: 4px;
+    background: $white;
   }
 
   .contact-information {
@@ -236,13 +214,13 @@ export default {
 
   button {
     margin-left: auto;
-    width: 85px;
-    height: 44px;
+    width: 87px;
+    height: 33px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #760013;
-    border-radius: 4px;
+    border-radius: 22px;
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
