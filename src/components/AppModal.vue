@@ -114,6 +114,7 @@ export default {
       "showAlert",
       "hideAlert",
       "setUserTransactionHistory",
+      "setUserFixedInterestRate",
     ]),
     ...mapActions([
       "apply",
@@ -122,6 +123,7 @@ export default {
       "redeem",
       "getUserAsset",
       "getUserTransactionHistory",
+      "getUserFixedInterestRate",
     ]),
     numeral,
     amountFormatter(inputAmount) {
@@ -141,6 +143,10 @@ export default {
       this.getUserAsset({
         token: this.token,
       }).then((response) => this.setUserAsset(response.data));
+
+      this.getUserFixedInterestRate({
+        token: this.token,
+      }).then((response) => this.setUserFixedInterestRate(response.data));
 
       setTimeout(() => {
         this.hideAlert();
