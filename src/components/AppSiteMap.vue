@@ -72,7 +72,7 @@ import IconAccountCircle from "@/components/icons/IconAccountCircle.vue";
 import IconLogout from "@/components/icons/IconLogout.vue";
 
 export default {
-  name: "AppSideBar",
+  name: "AppSiteMap",
   components: {
     IconPolygon,
     IconDashboard,
@@ -224,15 +224,10 @@ export default {
   }
 
   @media screen and (max-width: 949px) {
-    background: $white;
     border: none;
 
     .logo {
-      border-bottom: 1px solid $gray-5;
-
-      > span {
-        color: $brand-dark;
-      }
+      border-bottom: 1px solid $white;
 
       > i {
         &.icon-close {
@@ -243,16 +238,6 @@ export default {
 
     .link-list {
       padding: 20px 16px;
-
-      .link-item {
-        > a {
-          color: rgba($brand-dark, 0.32);
-
-          > svg {
-            fill: rgba($brand-dark, 0.32);
-          }
-        }
-      }
     }
 
     .divider {
