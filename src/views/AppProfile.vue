@@ -25,6 +25,14 @@
             placeholder="+1 123456789"
           ></b-form-input>
         </b-form-group>
+        <b-form-group label-for="referral" label="Referral">
+          <b-form-input
+            id="referral"
+            type="text"
+            :value="userInfo.referralFrom"
+            readonly
+          ></b-form-input>
+        </b-form-group>
         <div class="button-container">
           <button
             :disabled="isUpdateUserInfoDisabled"
