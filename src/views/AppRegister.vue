@@ -163,6 +163,9 @@ export default {
       referral: null,
     };
   },
+  beforeMount() {
+    this.referral = this.$route.query.referral;
+  },
   computed: {
     isVerifyEmailDisabled() {
       return !this.email || !this.agree || this.isLoading;
