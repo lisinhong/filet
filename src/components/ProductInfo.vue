@@ -167,6 +167,11 @@ export default {
     .info {
       justify-content: space-around;
     }
+
+    .description {
+      margin-bottom: 30px;
+      padding: 0 80px;
+    }
   }
 
   .rate {
@@ -181,10 +186,10 @@ export default {
 
   .description {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     font-size: 14px;
-    padding: 0 80px;
-    margin-bottom: 30px;
 
     &__text {
       white-space: pre-line;

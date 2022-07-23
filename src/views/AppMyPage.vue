@@ -21,6 +21,8 @@
       </p>
       <div class="content">
         <product-info
+          v-if="product"
+          :product="product"
           :redeem="hasUserProductInfo"
           :apply="hasUserProductInfo"
         />
@@ -63,6 +65,11 @@ export default {
       "productList",
     ]),
     ...mapGetters(["isLogin"]),
+    product() {
+      return this.productList.find(
+        (product) => product.name === "Fixed Interest"
+      );
+    },
     hasAsset() {
       return this.userAsset.totalAsset > 0;
     },

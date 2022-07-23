@@ -18,7 +18,7 @@
         Fixed Interest
       </p>
       <div class="content">
-        <product-info />
+        <product-info v-if="product" :product="product" />
       </div>
     </div>
     <div class="app-card large">
@@ -49,6 +49,11 @@ export default {
   },
   computed: {
     ...mapState(["tvl", "tvlHistory", "token", "productIdList", "productList"]),
+    product() {
+      return this.productList.find(
+        (product) => product.name === "Fixed Interest"
+      );
+    },
     doughnutChartData() {
       return {
         labels: ["Total Deposit", "Fixed Interest"],
