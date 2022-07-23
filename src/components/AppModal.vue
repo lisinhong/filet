@@ -40,6 +40,31 @@
         the 7th of the following month and you will no longer be able to receive
         your interest. Are you sure you want to do this?
       </p>
+      <div class="interest-trial" v-if="modal.type === 'apply'">
+        <ul>
+          <li>
+            <div class="phase">Daily Interest</div>
+            <div class="interest">
+              {{ userFixedInterestRate.dayrate }}
+              <em>USDT</em>
+            </div>
+          </li>
+          <li>
+            <div class="phase">Monthly Interest</div>
+            <div class="interest">
+              {{ userFixedInterestRate.monthrate }}
+              <em>USDT</em>
+            </div>
+          </li>
+        </ul>
+        <div class="result">
+          <p>Receive Amount on the next 7th of month</p>
+          <p class="text-right">
+            {{ userFixedInterestRate.interest }}
+            <em>USDT</em>
+          </p>
+        </div>
+      </div>
     </div>
     <div class="footer">
       <button
@@ -72,7 +97,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["modal", "token"]),
+    ...mapState(["modal", "token", "userFixedInterestRate"]),
     title() {
       switch (this.modal.type) {
         case "apply":
@@ -312,6 +337,57 @@ export default {
         color: $primary-dark-1;
         cursor: pointer;
         font-style: normal;
+      }
+    }
+
+    .interest-trial {
+      margin: 20px 0 36px;
+      padding: 0;
+      list-style: none;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.02em;
+      color: #000000;
+
+      ul {
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid #dbe3e4;
+
+        > li {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 36px;
+
+          .interest {
+            > em {
+              font-style: normal;
+              color: #7a8182;
+            }
+          }
+        }
+      }
+
+      .result {
+        margin-top: 40px;
+
+        > p {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0.02em;
+          color: #000000;
+
+          > em {
+            font-style: normal;
+            color: #7a8182;
+          }
+
+          &.text-right {
+            text-align: right;
+          }
+        }
       }
     }
 
