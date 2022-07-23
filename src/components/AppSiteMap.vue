@@ -40,21 +40,31 @@
           <span>Contact</span>
         </router-link>
       </li>
-      <div class="divider"></div>
-      <ul class="account-setting">
-        <li class="link-item">
-          <router-link to="profile" exact-active-class="active">
-            <icon-account-circle />
-            <span>{{ userName || "Profile" }}</span>
-          </router-link>
-        </li>
-        <li class="link-item" @click="handleLogout">
-          <a>
-            <icon-logout />
-            <span>Logout</span>
-          </a>
-        </li>
-      </ul>
+
+      <template v-if="token">
+        <div class="divider"></div>
+        <ul class="account-setting">
+          <li class="link-item">
+            <router-link to="profile" exact-active-class="active">
+              <icon-account-circle />
+              <span>{{ userName || "Profile" }}</span>
+            </router-link>
+          </li>
+          <li class="link-item" @click="handleLogout">
+            <a>
+              <icon-logout />
+              <span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </template>
+      <template v-else>
+        <ul class="account-setting">
+          <li class="link-item" v-if="!token" @click="handleLogin">
+            <button>Login</button>
+          </li>
+        </ul>
+      </template>
     </ul>
   </div>
 </template>
@@ -91,6 +101,9 @@ export default {
   methods: {
     ...mapMutations(["toggleSidebar", "setToken", "setUserInfo", "resetUser"]),
     ...mapActions(["logout"]),
+    handleLogin() {
+      this.$router.push("login");
+    },
     async handleLogout() {
       try {
         await this.logout({
@@ -163,6 +176,10 @@ export default {
     .link-item {
       overflow: hidden;
 
+      &:last-of-type {
+        margin-bottom: auto;
+      }
+
       > a {
         display: flex;
         align-items: center;
@@ -211,7 +228,7 @@ export default {
 
   .divider {
     display: none;
-    margin: auto -16px 4px;
+    margin: 0 -16px 4px;
     width: 100vw;
     height: 1px;
     background-color: $gray-5;
@@ -221,6 +238,26 @@ export default {
     display: none;
     position: relative;
     padding: 0;
+
+    .link-item {
+      > button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 44px;
+        background: #a81b15;
+        border-radius: 4px;
+        color: $white;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        border: none;
+      }
+    }
   }
 
   @media screen and (max-width: 949px) {
