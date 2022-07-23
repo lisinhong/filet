@@ -48,7 +48,7 @@ export default {
     LineChart,
   },
   computed: {
-    ...mapState(["tvl", "product", "tvlHistory", "token"]),
+    ...mapState(["tvl", "tvlHistory", "token", "productIdList", "productList"]),
     doughnutChartData() {
       return {
         labels: ["Total Deposit", "Fixed Interest"],
@@ -116,16 +116,37 @@ export default {
       };
     },
   },
-  created() {
+  async created() {
     this.getTVL().then((response) => this.setTVL(response.data));
-    this.getProduct({ id: "0" }).then((response) =>
-      this.setProduct(response.data)
-    );
     this.getTVLHistory().then((response) => this.setTVLHistory(response.data));
+
+    const productList = [];
+    const { data } = await this.getProductIdList();
+    const productIdList = data.map((item) => item.id);
+
+    this.setProductIdList(productIdList);
+
+    for (let i = 0; i < productIdList.length; i++) {
+      const id = productIdList[i];
+      const { data } = await this.getProduct({ id });
+
+      productList.push(data);
+    }
+    this.setProductList(productList);
   },
   methods: {
-    ...mapActions(["getTVL", "getTVLHistory", "getProduct"]),
-    ...mapMutations(["setTVL", "setTVLHistory", "setProduct"]),
+    ...mapActions([
+      "getTVL",
+      "getTVLHistory",
+      "getProduct",
+      "getProductIdList",
+    ]),
+    ...mapMutations([
+      "setTVL",
+      "setTVLHistory",
+      "setProductIdList",
+      "setProductList",
+    ]),
     numeral,
   },
 };

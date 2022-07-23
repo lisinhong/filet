@@ -1,12 +1,20 @@
 <template>
   <div class="app-products">
-    <div class="app-card large">
+    <div
+      v-for="product in productList"
+      :key="product.id"
+      class="app-card large"
+    >
       <p class="title">
         <span class="dot"></span>
-        Fixed Interest
+        {{ product.name }}
       </p>
       <div class="content">
-        <product-info apply full-info />
+        <product-info
+          :product="product"
+          :apply="product.name === 'Fixed Interest'"
+          full-info
+        />
       </div>
     </div>
   </div>
@@ -22,17 +30,28 @@ export default {
     ProductInfo,
   },
   computed: {
-    ...mapState(["token"]),
+    ...mapState(["token", "productIdList", "productList"]),
     ...mapGetters(["isLogin"]),
   },
-  created() {
-    this.getProduct({ id: "0" }).then((response) =>
-      this.setProduct(response.data)
-    );
+  async created() {
+    const productList = [];
+    const { data } = await this.getProductIdList();
+    const productIdList = data.map((item) => item.id);
+
+    this.setProductIdList(productIdList);
+
+    for (let i = 0; i < productIdList.length; i++) {
+      const id = productIdList[i];
+      const { data } = await this.getProduct({ id });
+
+      productList.push(data);
+    }
+    this.setProductList(productList);
 
     if (!this.isLogin) {
       return;
     }
+
     this.getUserAsset({
       token: this.token,
     }).then((response) => {
@@ -40,15 +59,20 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["getProduct", "getUserAsset"]),
-    ...mapMutations(["setProduct", "setUserAsset"]),
+    ...mapActions(["getProduct", "getUserAsset", "getProductIdList"]),
+    ...mapMutations(["setUserAsset", "setProductIdList", "setProductList"]),
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .app-products {
-  background-color: $white;
   border-radius: 4px;
+}
+
+.app-card {
+  & + .app-card {
+    margin-top: 32px;
+  }
 }
 </style>

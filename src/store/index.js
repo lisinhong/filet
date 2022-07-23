@@ -59,18 +59,8 @@ export default new Vuex.Store({
       remainDay: null,
     },
     userTransactionHistory: [],
+    productIdList: [],
     productList: [],
-    product: {
-      name: null,
-      rates: null,
-      period: null,
-      pfee: null,
-      mfee: null,
-      minimal: null,
-      maximal: null,
-      mdd: null,
-      startDate: null,
-    },
     modal: {
       show: false,
       type: null,
@@ -142,11 +132,11 @@ export default new Vuex.Store({
     setTVL(state, data) {
       state.tvl = data;
     },
+    setProductIdList(state, data) {
+      state.productIdList = data;
+    },
     setProductList(state, data) {
       state.productList = data;
-    },
-    setProduct(state, data) {
-      state.product = data;
     },
     setTVLHistory(state, data) {
       state.tvlHistory = data;
@@ -238,7 +228,7 @@ export default new Vuex.Store({
     getTVLHistory() {
       return $axios.post("tvl/history");
     },
-    getProductList() {
+    getProductIdList() {
       return $axios.post("product/list");
     },
     getProduct(context, data) {

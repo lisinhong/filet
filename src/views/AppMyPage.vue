@@ -55,7 +55,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userAsset", "token", "userTransactionHistory"]),
+    ...mapState([
+      "userAsset",
+      "token",
+      "userTransactionHistory",
+      "productIdList",
+      "productList",
+    ]),
     ...mapGetters(["isLogin"]),
     hasAsset() {
       return this.userAsset.totalAsset > 0;
@@ -113,10 +119,20 @@ export default {
       return !this.userTransactionHistory.length;
     },
   },
-  created() {
-    this.getProduct({ id: "0" }).then((response) =>
-      this.setProduct(response.data)
-    );
+  async created() {
+    const productList = [];
+    const { data } = await this.getProductIdList();
+    const productIdList = data.map((item) => item.id);
+
+    this.setProductIdList(productIdList);
+
+    for (let i = 0; i < productIdList.length; i++) {
+      const id = productIdList[i];
+      const { data } = await this.getProduct({ id });
+
+      productList.push(data);
+    }
+    this.setProductList(productList);
 
     if (!this.isLogin) {
       return;
@@ -151,14 +167,16 @@ export default {
       "setUserAsset",
       "setUserWalletInfo",
       "setUserFixedInterestRate",
-      "setProduct",
       "setUserTransactionHistory",
+      "setProductIdList",
+      "setProductList",
     ]),
     ...mapActions([
       "getUserAsset",
       "getUserTransactionHistory",
       "getUserWalletInfo",
       "getUserFixedInterestRate",
+      "getProductIdList",
       "getProduct",
       "getUserTransactionHistory",
     ]),
